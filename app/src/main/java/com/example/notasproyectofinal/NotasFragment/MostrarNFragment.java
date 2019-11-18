@@ -56,6 +56,9 @@ public class MostrarNFragment extends Fragment {
                 );
         lv.setAdapter(adp);
 
+        //Aqui va el codigo para el fragmento oswi
+
+
     }
 
 }
