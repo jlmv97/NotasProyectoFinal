@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class BaseDeDatos extends SQLiteOpenHelper {
-    private final String SCRIPT_DB = "CREATE TABLE IF NOT EXISTS notas (" +
+    private String SCRIPT_DB = "CREATE TABLE IF NOT EXISTS Notas (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "_titulo TEXT NOT NULL," +
             "_texto TEXT NOT NULL," +
@@ -19,7 +19,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     public static final String[] COLUMNS_NAME_NOTA =
             {"_id", "_titulo", "_texto", "_recordatorio", "_fecha"};
 
-    public static final String TABLE_NAME_NOTAS = "notas";
+    public static final String TABLE_NAME_NOTAS = "Notas";
 
     public BaseDeDatos(@Nullable Context context) {
         super(context, "MyDB", null, 1);
@@ -31,7 +31,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         contentValues.put(COLUMNS_NAME_NOTA[1], nota.getTitulo());
         contentValues.put(COLUMNS_NAME_NOTA[2], nota.getTexto());
         contentValues.put(COLUMNS_NAME_NOTA[3], nota.getRecordatorio());
-        contentValues.put(COLUMNS_NAME_NOTA[4], nota.getFecha());
+        contentValues.put(COLUMNS_NAME_NOTA[4], nota.getFecha().toString());
 
         return contentValues;
     }
@@ -39,9 +39,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SCRIPT_DB);
-        sqLiteDatabase.insert(TABLE_NAME_NOTAS, null,
+        /*sqLiteDatabase.insert(TABLE_NAME_NOTAS, null,
                 valores(new Nota(0,"Prueba","Si sirvio, espero",
-                        "123","2019/11/02")));
+                        "123","2019/11/02")));*/
     }
 
     @Override

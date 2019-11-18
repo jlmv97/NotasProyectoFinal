@@ -1,18 +1,19 @@
 package com.example.notasproyectofinal;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Nota implements Serializable {
     int id;
     String titulo;
     String texto;
     String recordatorio;
-    String fecha;
+    Date fecha;
 
     public Nota(){
     }
 
-    public Nota(int id, String titulo, String texto, String recordatorio, String fecha){
+    public Nota(int id, String titulo, String texto, String recordatorio, Date fecha){
         this.id = id;
         this.titulo = titulo;
         this.texto = texto;
@@ -36,7 +37,7 @@ public class Nota implements Serializable {
 
     public void setRecordatorio(String recordatorio) { this.recordatorio = recordatorio; }
 
-    public String getFecha(){ return fecha; }
+    public Date getFecha(){ return fecha; }
 
-    public void setFecha(String fecha) { this.fecha = fecha; }
+    public void setFecha(Date fecha) { this.fecha = fecha; }
 }
