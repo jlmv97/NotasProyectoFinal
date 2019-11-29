@@ -75,5 +75,17 @@ public class DAORecursos {
         return rutas;
     }
 
+    public String buscar(String criterio){
+        String valores="";
+        Cursor query =sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_ARCHIVOS,BaseDeDatos.COLUMNS_NAME_ARCHIVOS, "_idArchivo=?",new String[]{criterio+""}, null, null,null);
+        while(query.moveToNext()){
+            valores = "ID: "+query.getInt(0)+"\n Typo: "+query.getString(1)+
+                    "\n Descripcion: "+query.getString(2)+
+                    "\n Ruta: "+query.getString(3)+
+                    "\n NotaId: "+query.getString(4);
+        }
+        return valores;
+    }
+
 
 }

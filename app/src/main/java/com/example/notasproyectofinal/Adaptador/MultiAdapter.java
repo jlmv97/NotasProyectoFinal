@@ -61,9 +61,8 @@ public class MultiAdapter extends RecyclerView.Adapter {
 
         public AudioTypeViewHolder(View itemView){
             super(itemView);
-
-            this.textView = (TextView) itemView.findViewById(R.id.type);
             this.fab = (FloatingActionButton) itemView.findViewById(R.id.fab);
+            this.textView = (TextView) itemView.findViewById(R.id.type);
         }
     }
 

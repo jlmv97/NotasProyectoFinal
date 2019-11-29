@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.notasproyectofinal.DAOS.DAONota;
+import com.example.notasproyectofinal.DAOS.DAORecursos;
 import com.example.notasproyectofinal.MultimediaFragment.MostrarTFragment;
 import com.example.notasproyectofinal.NotasFragment.MostrarNFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
                 IrAgregarNotas();
             }
         });
-
+        DAORecursos daor = new DAORecursos(this);
+        String n = daor.buscar("3");
         String r = dao.buscar("1");
-        Toast.makeText(this,r,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,n,Toast.LENGTH_LONG).show();
 
         //Tabs
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

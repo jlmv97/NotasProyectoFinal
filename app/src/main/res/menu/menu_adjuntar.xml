@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/popAudio"
-        android:title="Grabar audio"></item>
-    <item
         android:id="@+id/popCamara"
-        android:title="Tomar foto o grabar audio"></item>
+        android:title="Tomar foto"></item>
     <item
-        android:id="@+id/popAjuntar"
-        android:title="Adjuntar archivo"></item>
+        android:id="@+id/popVideo"
+        android:title="Tomar video"></item>
+    <item
+        android:id="@+id/popAjuntarV"
+        android:title="Adjuntar video"></item>
+    <item
+        android:id="@+id/popAjuntarF"
+        android:title="Adjuntar foto"></item>
 </menu>

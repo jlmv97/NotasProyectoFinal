@@ -58,4 +58,21 @@ public class MostrarNFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        DAONota dao = new DAONota(getContext());
+        lv = getView().findViewById(R.id.lv_mostrarnota);
+        //Llena el listview
+        SimpleCursorAdapter adp =
+                new SimpleCursorAdapter(
+                        getContext(),
+                        android.R.layout.simple_list_item_2,
+                        dao.getAllCursor(),
+                        new String[]{"_titulo","_fecha"},
+                        new int[]{android.R.id.text1,android.R.id.text2},
+                        SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
+                );
+        lv.setAdapter(adp);
+    }
 }
