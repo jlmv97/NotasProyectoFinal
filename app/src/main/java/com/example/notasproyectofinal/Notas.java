@@ -84,7 +84,7 @@ public class Notas extends AppCompatActivity {
         }
 
     }
-
+    //VALIDACION DE PERMISOS/////////////////////////////////////////////////////////
     private boolean validarPermisos() {
 
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
@@ -110,7 +110,6 @@ public class Notas extends AppCompatActivity {
 
         return false;
     }
-
     private void PermisosRecomendados() {
         AlertDialog.Builder dialogo =  new AlertDialog.Builder(this);
         dialogo.setTitle("Permisos no otorgados");
@@ -125,6 +124,8 @@ public class Notas extends AppCompatActivity {
         });
         dialogo.show();
     }
+
+    //POP UP MENU///////////////////////////////////////////////////////
 
     public void Adjuntar(View view) {///Manda llamar los dintos metodos para adjuntar archivos
         opciones = new PopupMenu(this,view);
@@ -153,60 +154,19 @@ public class Notas extends AppCompatActivity {
         opciones.show();
     }
 
-    public void buscarImg (){
+    //METODOS PARA ADJUNTAR ARCHIVOS MULTIMEDIA
+
+    public void buscarImg (){//AGREGAR IMAGEN DE LA GALLERIA
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent,3);
     }
-    public void buscarVid() {
+    public void buscarVid() {//AGREGA VIDEO DE LA GALERIA
         Intent intentGaleria = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intentGaleria.setType("video/");
         startActivityForResult(intentGaleria.createChooser(intentGaleria,"Seleccione una app"),2);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 0://Tomar Foto
-                //listaModelos.add(Uri.parse(currentPhotoPath));
-                Adjuntos adjuntos1 = new Adjuntos(0,"",Uri.parse(currentPhotoPath));
-                pls.add(adjuntos1);
-                //Imagesadapter = new MyRecyclerViewAdapter(this, listaModelos);
-                recycler.setAdapter(adaptador);
-                break;
-            case 1://Tomar video
-                Uri videoUri2 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos2 = new Adjuntos(2,"Adios", videoUri2);
-                pls.add(adjuntos2);
-                //listaModelos.add(videoUri);
-
-                //Imagesadapter = new MyRecyclerViewAdapter(this, listaModelos);
-                recycler.setAdapter(adaptador);
-
-                //Toast.makeText(this, ""+videoUri, Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                Uri videoUri3 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos3 = new Adjuntos(2,"hola", videoUri3);
-                pls.add(adjuntos3);
-                //listaModelos.add(videoUri);
-                //Imagesadapter = new MyRecyclerViewAdapter(this, listaModelos);
-                recycler.setAdapter(adaptador);
-
-                //Toast.makeText(this, ""+videoUri, Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                Uri ima = data.getData();
-                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,"jolla",ima);
-                pls.add(adjuntos4);
-                recycler.setAdapter(adaptador);
-                break;
-        }
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N) //CREA EL ARCHIVO PARA COLOCAR LA FOTO
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -222,8 +182,7 @@ public class Notas extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N)//ABRE LA CAMARA
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -246,16 +205,16 @@ public class Notas extends AppCompatActivity {
             }
         }
     }
-
-    private void dispatchTakeVideoIntent() {
+    private void dispatchTakeVideoIntent() {//ABRE LA CAMARA PARA GRABAR
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takeVideoIntent, 1);
         }
     }
 
+    //METODO PARA GRABAR AUDIO
 
-        private MediaRecorder grabacion=null;
+    private MediaRecorder grabacion=null;
     private String archivoSalida = null;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -293,6 +252,37 @@ public class Notas extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 0://Tomar Foto
+                Adjuntos adjuntos1 = new Adjuntos(0,"",Uri.parse(currentPhotoPath));
+                pls.add(adjuntos1);
+                recycler.setAdapter(adaptador);
+                break;
+            case 1://Tomar video
+                Uri videoUri2 = data.getData();//videoView.setVideoURI(videoUri);
+                Adjuntos adjuntos2 = new Adjuntos(2,"Adios", videoUri2);
+                pls.add(adjuntos2);
+                recycler.setAdapter(adaptador);
+                break;
+            case 2:
+                Uri videoUri3 = data.getData();//videoView.setVideoURI(videoUri);
+                Adjuntos adjuntos3 = new Adjuntos(2,"hola", videoUri3);
+                pls.add(adjuntos3);
+                recycler.setAdapter(adaptador);
+                break;
+            case 3:
+                Uri ima = data.getData();
+                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,"HH",ima);
+                pls.add(adjuntos4);
+                recycler.setAdapter(adaptador);
+                break;
+        }
+
+    }
+    //METODOS PARA INSERTAR LAS NOTAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
     public void AgregarNota(View view) {///Agrega la nota a la base de datos
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         nota.insert(new Nota(0,titulo.getText().toString(),mensaje.getText().toString(),date));
@@ -313,7 +303,7 @@ public class Notas extends AppCompatActivity {
         String[] Notas1 = {""};
         DAONota daoNotas = new DAONota(this);
         ArrayList<Integer> arrayIds = new ArrayList<>();
-        arrayIds = daoNotas.buscarUltimoId(Notas1); //El array que me gusrda todos los ids de las Notas
+        arrayIds = daoNotas.buscarUltimoId(Notas1);
 
             for (int i = 0; i < pls.size(); i++) {
 
@@ -323,8 +313,6 @@ public class Notas extends AppCompatActivity {
 
                 daoRecursos.insert(ruta);
                 Log.i("RUTAS", ""+ruta.getId() +" path= "+ruta.getRuta()+"idNota= "+ruta.getIdNotas());
-                //finish();
-                Log.i("RUTAS", ""+ruta.getId() +" path= "+ruta.getRuta()+ "idNota= "+ruta.getIdNotas());
 
 
         }
