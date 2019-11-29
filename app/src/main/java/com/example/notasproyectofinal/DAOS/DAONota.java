@@ -34,10 +34,21 @@ public class DAONota {
                 "_id=?",new String[]{Integer.toString(id)}) > 0;
     }
 
+    public int update (Nota nota){
+
+        ContentValues valoresParaActualizar =  new ContentValues();
+        valoresParaActualizar.put(BaseDeDatos.COLUMNS_NAME_NOTA[1], nota.getTitulo());
+        valoresParaActualizar.put(BaseDeDatos.COLUMNS_NAME_NOTA[2], nota.getTexto());
+        String campoParaActualizar = "_id = ?";
+        String[] argumentosParaActualizar = {String.valueOf(nota.getId())};
+        return sqLiteDatabase.update(BaseDeDatos.TABLE_NAME_NOTAS, valoresParaActualizar, campoParaActualizar, argumentosParaActualizar);
+
+    }
+/*
     public boolean update(int id, ContentValues contentValues){
         return sqLiteDatabase.update(BaseDeDatos.TABLE_NAME_NOTAS, contentValues,
                 "_id="+id,null) > 0;
-    }
+    }*/
 
     public Nota notaPorID(int id){
         Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS,

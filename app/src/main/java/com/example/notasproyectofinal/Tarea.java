@@ -57,4 +57,8 @@ public class Tarea implements Serializable {
     public void setHora(String hora) {
         this.hora = hora;
     }
+
+    public String toString(){
+        return "Tarea " + titulo + "\nfecha: " + fecha + "\nhr: " + hora;
+    }
 }

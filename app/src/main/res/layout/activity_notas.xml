@@ -49,7 +49,7 @@
         android:src="@drawable/carpeta" />
 
     <Button
-        android:id="@+id/btn_guardar"
+        android:id="@+id/btn_actualizarN"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="250dp"

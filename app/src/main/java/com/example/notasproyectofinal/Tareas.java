@@ -8,7 +8,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,13 +27,17 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.notasproyectofinal.Adaptador.Adjuntos;
 import com.example.notasproyectofinal.Adaptador.MultiAdapter;
+import com.example.notasproyectofinal.DAOS.DAORecordatorio;
 import com.example.notasproyectofinal.DAOS.DAORecursosT;
 import com.example.notasproyectofinal.DAOS.DAOTareas;
 
@@ -47,6 +56,7 @@ public class Tareas extends AppCompatActivity {
     //Variables
     EditText titulo;
     EditText mensaje;
+    TextView fechas;
     RecyclerView recycler;
     PopupMenu opciones;
     ImageButton menu;
@@ -54,8 +64,16 @@ public class Tareas extends AppCompatActivity {
     public MultiAdapter adaptador;
     public ArrayList<Adjuntos> pls = new ArrayList<>();
     public DAOTareas tarea;
-    private Calendar c = Calendar.getInstance();
+    private int day, month, year, hour, min;
+    String m,d,fecha, hora, minutos, hr;
     String currentPhotoPath;
+    final Calendar c = Calendar.getInstance();
+    final Calendar calendarRecordatorios = Calendar.getInstance();
+    ArrayList <Recordatorio> listaRecordatorios = new ArrayList<>();
+    ArrayList <provicional> noSave = new ArrayList<>();
+    private int dayRecordaotio, monthRecordatorio, yearRecordatorio, hourRecordatorio, minRecordatorio;
+    String mRecordatorio,dRecordatorios,fechaRecordatorio, horaRecordatorio, minutosRecordatorio, hrRecordatorios;
+    Tarea tr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +85,7 @@ public class Tareas extends AppCompatActivity {
         mensaje = findViewById(R.id.txt_cuerpo_tarea);
         menu = findViewById(R.id.btn_adjuntar);
         grabar = findViewById(R.id.btn_grabar);
+        fechas = findViewById(R.id.txt_fecha);
         tarea = new DAOTareas(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
@@ -282,10 +301,10 @@ public class Tareas extends AppCompatActivity {
 
     }
     //METODOS PARA INSERTAR LAS NOTAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void AgregarTarea(View view) {///Agrega la nota a la base de datos
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String hour = new SimpleDateFormat( "HH:mm:ss").format(new Date());
-        tarea.insert(new Tarea(0,titulo.getText().toString(),mensaje.getText().toString(),date,hour));
+        tr = new  Tarea(0,titulo.getText().toString(),mensaje.getText().toString(),fecha,hr);
+        tarea.insert(tr);
         if(pls.isEmpty()){
 
         }else{
@@ -297,6 +316,13 @@ public class Tareas extends AppCompatActivity {
         }else{
             insertaruri();
         }
+        DAORecordatorio n = new DAORecordatorio(this);
+
+        String r = n.busqueda("1");
+        Toast.makeText(this,"",Toast.LENGTH_LONG).show();
+        crearNotificacion(year,month,day,hour,min);
+        insertRecordatorios(view);
+
     }
 
     public void insertaruri (){
@@ -317,50 +343,185 @@ public class Tareas extends AppCompatActivity {
 
         }
     }
+//SE AGREGA LA FECHA
+    private void abrirReloj() {
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        min = c.get(Calendar.MINUTE);
 
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
 
-    /*
-    public void AgregarRecordatorio(View view) {
-        fecha = findViewById(R.id.lbl_recordatorio);
-
-        String fechaR;
-        String fechaA;
-
-
-        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
-                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                //Muestro la hora con el formato deseado
-                fecha.setText(fecha.getText().toString()+" "+horaFormateada + ":" + minutoFormateado);
+                if((hourOfDay+1)<10){
+                    hora = "0"+""+(hourOfDay);
+                }else{
+                    hora = ""+(hourOfDay);
+                }
+                if(minute<10){
+                    minutos = "0"+""+minute;
+                }else{
+                    minutos= ""+minute;
+                }
+                hr = hora+":"+minutos;
+                min = minute;
+                hour= hourOfDay;
+                fechas.setText(fecha+"  "+hr);
+
+
             }
-            //Estos valores deben ir en ese orden
-            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
-            //Pero el sistema devuelve la hora en formato 24 horas
-        }, hora, minuto, true);
-        recogerHora.show();
-        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        },hour,min,false);
+        timePickerDialog.show();
+    }
+
+
+    public void abrirCalendario(View view) {
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        min = c.get(Calendar.MINUTE);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
-                final int mesActual = month + 1;
-                //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
-                //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
-                //Muestro la fecha con el formato deseado
-                fecha.setText(diaFormateado + "/" + mesFormateado + "/" + year);
+                if((month+1)<10){
+                    m = "0"+""+(month+1);
+                }else{
+                    m = ""+(month+1);
+                }
+                if(dayOfMonth<10){
+                    d = "0"+""+dayOfMonth;
+                }else{
+                    d= ""+dayOfMonth;
+                }
+                fecha= ""+year+"/"+m+"/"+d;
+
+                abrirReloj();
             }
-            //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+        } ,year,month,day);
+        datePickerDialog.show();
+    }
 
-             //También puede cargar los valores que usted desee
+    public void agregar_recorda(View view) {
+        yearRecordatorio = calendarRecordatorios.get(Calendar.YEAR);
+        monthRecordatorio = calendarRecordatorios.get(Calendar.MONTH);
+        dayRecordaotio = calendarRecordatorios.get(Calendar.DAY_OF_MONTH);
+        hourRecordatorio = calendarRecordatorios.get(Calendar.HOUR_OF_DAY);
+        minRecordatorio = calendarRecordatorios.get(Calendar.MINUTE);
 
-        },anio, mes, dia);
-        //Muestro el widget
-        recogerFecha.show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if((month+1)<10){
+                    mRecordatorio = "0"+""+(month+1);
+                }else{
+                    mRecordatorio = ""+(month+1);
+                }
+                if(dayOfMonth<10){
+                    dRecordatorios = "0"+""+dayOfMonth;
+                }else{
+                    dRecordatorios = ""+dayOfMonth;
+                }
+                //efecha.setText(dayOfMonth+"/"+(month + 1)+"/"+year);
+                //btnFecha.setText(year+"/"+m+"/"+d);
+                fechaRecordatorio= ""+year+"/"+mRecordatorio+"/"+dRecordatorios;
 
-    }*/
+                abrirRelojR();
+            }
+        } ,yearRecordatorio,monthRecordatorio,dayRecordaotio);
+        datePickerDialog.show();
+    }
+    private void abrirRelojR() {
+        hourRecordatorio = calendarRecordatorios.get(Calendar.HOUR_OF_DAY);
+        minRecordatorio = calendarRecordatorios.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                if((hourOfDay+1)<10){
+                    horaRecordatorio = "0"+""+(hourOfDay);
+                }else{
+                    horaRecordatorio = ""+(hourOfDay);
+                }
+                if(minute<10){
+                    minutosRecordatorio = "0"+""+minute;
+                }else{
+                    minutosRecordatorio= ""+minute;
+                }
+                hrRecordatorios = horaRecordatorio+":"+minutosRecordatorio;
+                minRecordatorio = minute;
+                hourRecordatorio= hourOfDay;
+
+                guardarRecordatorios(yearRecordatorio,monthRecordatorio,dayRecordaotio,hourRecordatorio,minRecordatorio, fechaRecordatorio, hrRecordatorios);
+            }
+        },hourRecordatorio,minRecordatorio,false);
+        timePickerDialog.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void crearNotiRecordatorio(int year, int month, int day, int hour, int min){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent(this, Alarm.class);
+        notificationIntent.putExtra("tarea", "Recordatorio de la tarea "+tr.getTitulo());
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 200, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        calendarRecordatorios.set(year,month,day,hour,min,0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarRecordatorios.getTimeInMillis(), broadcast);
+
+        Log.i("Recordatorios", "Hora "+hour+":"+min);
+    }
+
+    public void guardarRecordatorios(int year, int month, int day, int hour, int min, String fecha, String hora){
+        provicional r = new provicional(year, month, day, hour, min, fecha, hora);
+        noSave.add(r);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void insertRecordatorios(View view){
+        String[] Tareas1 = {""}; //para que me devuelva todas las tareas y yo tomar la ultima
+        DAOTareas daoTareas = new DAOTareas(this);
+
+        ArrayList<Integer> arrayIds = new ArrayList<>();
+        arrayIds = daoTareas.buscarUltimoId(Tareas1); //El array que me gusrda todos los ids de las Tareas
+
+        if(noSave !=null) {
+            for (int i = 0; i < noSave.size(); i++) {
+
+                crearNotiRecordatorio(noSave.get(i).getYear(), noSave.get(i).getMonth(), noSave.get(i).getDay(),noSave.get(i).getHour(), noSave.get(i).getMin());
+
+                Recordatorio recordatorio = new Recordatorio(0, noSave.get(i).getFecha(), noSave.get(i).getHora(), arrayIds.get(arrayIds.size()-1));
+                DAORecordatorio daoRecordatorios = new DAORecordatorio(this);
+
+                switch (view.getId()) {
+                    case R.id.btn_inserTarea:
+                        daoRecordatorios.insert(recordatorio);
+                        Log.i("Recordatorios", ""+recordatorio.getId());
+                }
+            }
+
+        }else{
+            //finish();
+        }
+        finish();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void crearNotificacion(int year, int month, int day, int hour, int min){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent(this, Alarm.class);
+
+        notificationIntent.putExtra("tarea", "Realizar la tarea "+tr.getTitulo());
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Calendar cal = Calendar.getInstance();
+
+        c.set(year,month,day,hour,min,0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), broadcast);
+
+        //Toast.makeText(this, "Se creo la notificacion ", Toast.LENGTH_SHORT).show();
+    }
 }

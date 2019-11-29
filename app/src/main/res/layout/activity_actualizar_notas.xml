@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actualizar_notas">
+    <EditText
+        android:id="@+id/txt_titulo_tarea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="Titulo"
+        android:inputType="textPersonName" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/txt_cuerpo_tarea"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Nota"
+        android:inputType="textMultiLine" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recy_multi"
+        android:layout_width="299dp"
+        android:layout_height="358dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="154dp"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical" />
+
+    <ImageButton
+        android:id="@+id/btn_adjuntar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="170dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginBottom="92dp"
+        android:background="#00FFFFFF"
+        android:onClick="Adjuntar"
+        android:scaleType="fitXY"
+        android:src="@drawable/carpeta" />
+
+    <Button
+        android:id="@+id/btn_actualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="46dp"
+        android:layout_marginRight="46dp"
+        android:layout_marginBottom="91dp"
+        android:onClick="ActualizarNota"
+        android:text="Actualizar" />
+
+    <ImageButton
+        android:id="@+id/btn_grabar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="90dp"
+        android:background="#00FFFFFF"
+        android:onClick="grabarAudio"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/forma_de_microfono_negro" />
+
+</RelativeLayout>

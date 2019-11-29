@@ -73,4 +73,15 @@ public class DAORecordatorio {
         return _sqLiteDatabase.delete(BaseDeDatos.TABLE_NAME_RECORDATORIO, "_id = ?", argumentos);
 
     }
+
+    public String busqueda(String criterio){
+        String valores="";
+        Cursor query =_sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_RECORDATORIO,BaseDeDatos.COLUMNS_NAME_RECORDATORIO, "_id=?",new String[]{criterio+""}, null, null,null);
+        while(query.moveToNext()){
+            valores = "ID: "+query.getInt(0)+"\n Titulo: "+query.getString(1)+
+                    "\n Texto: "+query.getString(2)+
+                    "\n Fecha: "+query.getString(3);
+        }
+        return valores;
+    }
 }
