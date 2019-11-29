@@ -9,6 +9,12 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="29" />
 
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -17,7 +23,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.notasproyectofinal.Tareas" />
+        <activity android:name="com.example.notasproyectofinal.Notas" />
         <activity android:name="com.example.notasproyectofinal.Seleccion" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

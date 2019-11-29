@@ -11,15 +11,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.example.notasproyectofinal.DAONota;
-import com.example.notasproyectofinal.Nota;
+import com.example.notasproyectofinal.DAOS.DAONota;
 import com.example.notasproyectofinal.R;
-
-import java.util.ArrayList;
 
 public class MostrarNFragment extends Fragment {
 
@@ -29,13 +25,14 @@ public class MostrarNFragment extends Fragment {
         return new MostrarNFragment();
     }
 
-    ListView lv;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.mostra_n_fragment, container, false);
     }
+
+    ListView lv;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

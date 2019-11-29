@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotasFragment.Notas">
+    tools:context=".Tareas">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragmento notas"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="25dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Tareas"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="49dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

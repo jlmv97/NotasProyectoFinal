@@ -7,17 +7,15 @@ public class Nota implements Serializable {
     int id;
     String titulo;
     String texto;
-    String recordatorio;
-    Date fecha;
+    String fecha;
 
     public Nota(){
     }
 
-    public Nota(int id, String titulo, String texto, String recordatorio, Date fecha){
+    public Nota(int id, String titulo, String texto, String fecha){
         this.id = id;
         this.titulo = titulo;
         this.texto = texto;
-        this.recordatorio = recordatorio;
         this.fecha = fecha;
     }
 
@@ -33,11 +31,7 @@ public class Nota implements Serializable {
 
     public void setTexto(String texto) { this.texto = texto; }
 
-    public String getRecordatorio(){ return recordatorio; }
+    public String getFecha(){ return fecha; }
 
-    public void setRecordatorio(String recordatorio) { this.recordatorio = recordatorio; }
-
-    public Date getFecha(){ return fecha; }
-
-    public void setFecha(Date fecha) { this.fecha = fecha; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
 }

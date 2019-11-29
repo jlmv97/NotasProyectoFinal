@@ -3,6 +3,7 @@ package com.example.notasproyectofinal;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.notasproyectofinal.DAOS.DAONota;
 import com.example.notasproyectofinal.MultimediaFragment.MostrarTFragment;
 import com.example.notasproyectofinal.NotasFragment.MostrarNFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,12 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
+    public int contenedor=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
                         FragmentTransaction transactionN = getSupportFragmentManager().beginTransaction();
                         transactionN.replace(R.id.contenedor,mn)
                                 .commit();
+                        contenedor=0;
                         break;
                     case 1:
                         MostrarTFragment mt = new MostrarTFragment();
                         FragmentTransaction transactionT = getSupportFragmentManager().beginTransaction();
                         transactionT.replace(R.id.contenedor,mt)
                                 .commit();
+                        contenedor=1;
                         break;
                 }
             }
@@ -102,8 +103,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void IrAgregarNotas (){
-        Intent addNota = new Intent(this,Seleccion.class);
-        startActivity(addNota);
+        if(contenedor == 0){
+            Intent addNota = new Intent(this,Notas.class);
+            startActivity(addNota);
+        }else{
+        Intent addTarea = new Intent(this,Tareas.class);
+        startActivity(addTarea);
+        }
     }
 
     public void MostrarTareas(View view) {

@@ -12,33 +12,37 @@ public class BaseDeDatos extends SQLiteOpenHelper {
             "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "_titulo TEXT NOT NULL," +
             "_texto TEXT NOT NULL," +
-            "_recordatorio TEXT," +
-            "_fecha DATE NOT NULL" +
+            "_fecha TEXT NOT NULL" +
+            ");";
+    private String SCRIPT_ARCHIVOS_NOTAS = "CREATE TABLE IF NOT EXISTS ArchivosN ("+
+            "_idArchivo INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            "_tipo INTEGER NOT NULL,"+
+            "_descripcion TEXT NOT NULL,"+
+            "_ruta TEXT NOT NULL,"+
+            "_idNota INTEGER NOT NULL,"+
+            "FOREIGN KEY (_idNota) REFERENCES Notas(_id)"+
             ");";
 
     public static final String[] COLUMNS_NAME_NOTA =
-            {"_id", "_titulo", "_texto", "_recordatorio", "_fecha"};
+            {"_id", "_titulo", "_texto", "_fecha"};
 
     public static final String TABLE_NAME_NOTAS = "Notas";
+
+    public static final String TABLE_NAME_ARCHIVOS = "ArchivosN";
+
+    public static final String[] COLUMNS_NAME_ARCHIVOS = {
+        "_idArchivo","_descripcion","_tipo","_ruta","_idNota"};
 
     public BaseDeDatos(@Nullable Context context) {
         super(context, "MyDB", null, 1);
     }
 
-    public ContentValues valores(Nota nota){
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(COLUMNS_NAME_NOTA[1], nota.getTitulo());
-        contentValues.put(COLUMNS_NAME_NOTA[2], nota.getTexto());
-        contentValues.put(COLUMNS_NAME_NOTA[3], nota.getRecordatorio());
-        contentValues.put(COLUMNS_NAME_NOTA[4], nota.getFecha().toString());
-
-        return contentValues;
-    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SCRIPT_DB);
+        sqLiteDatabase.execSQL(SCRIPT_ARCHIVOS_NOTAS);
+
         /*sqLiteDatabase.insert(TABLE_NAME_NOTAS, null,
                 valores(new Nota(0,"Prueba","Si sirvio, espero",
                         "123","2019/11/02")));*/
@@ -47,6 +51,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_NOTAS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ARCHIVOS);
         onCreate(sqLiteDatabase);
     }
 }
