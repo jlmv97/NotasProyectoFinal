@@ -22,7 +22,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -64,8 +63,8 @@ public class Notas extends AppCompatActivity {
         setContentView(R.layout.activity_notas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         adaptador = new MultiAdapter(pls,this);
-        titulo = findViewById(R.id.txt_titulo_nota);
-        mensaje = findViewById(R.id.txt_cuerpo_nota);
+        titulo = findViewById(R.id.txt_titulo_tarea);
+        mensaje = findViewById(R.id.txt_cuerpo_tarea);
         menu = findViewById(R.id.btn_adjuntar);
         grabar = findViewById(R.id.btn_grabar);
         nota = new DAONota(this);

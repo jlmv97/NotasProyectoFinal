@@ -5,13 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.notasproyectofinal.BaseDeDatos;
 import com.example.notasproyectofinal.Nota;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DAONota {
     SQLiteDatabase sqLiteDatabase;
@@ -91,6 +87,39 @@ public class DAONota {
         cursor.close();
 
         return nota;
+    }
+
+    public ArrayList<Nota> agregar(String[] titulo){
+        ArrayList<Nota> notas = new ArrayList<>();
+
+        String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_NOTA[0], BaseDeDatos.COLUMNS_NAME_NOTA[1], BaseDeDatos.COLUMNS_NAME_NOTA[2],BaseDeDatos.COLUMNS_NAME_NOTA[3]};
+        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, BaseDeDatos.COLUMNS_NAME_NOTA, null,null, null, null, null);
+
+        if(titulo[0].equals("")){
+
+            cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, columnasAConsultar, null, null, null, null, null);
+        }
+
+        if (cursor == null){
+            return notas;
+        }
+
+        if (!cursor.moveToFirst()) return notas;
+
+        do {
+
+            int idObtenidoDeBD = cursor.getInt(0);
+            String tituloObtenidoDeBD = cursor.getString(1);
+            String descripcionObtenidoDeBD = cursor.getString(2);
+            String fechaObtenidoDBD = cursor.getString(3);
+
+            Nota notaObtenidoDeBD = new Nota(idObtenidoDeBD, tituloObtenidoDeBD, descripcionObtenidoDeBD,fechaObtenidoDBD);
+            notas.add(notaObtenidoDeBD);
+
+        } while (cursor.moveToNext());
+
+        cursor.close();
+        return notas;
     }
 
 

@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/txt_titulo_nota"
+        android:id="@+id/txt_titulo_tarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
@@ -18,7 +18,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/txt_cuerpo_nota"
+        android:id="@+id/txt_cuerpo_tarea"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"

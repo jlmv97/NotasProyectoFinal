@@ -4,12 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 
-import com.example.notasproyectofinal.Archivos;
-import com.example.notasproyectofinal.BaseDeDatos;
 import com.example.notasproyectofinal.Tarea;
-import com.example.notasproyectofinal.Tareas;
 
 import java.util.ArrayList;
 
@@ -60,20 +56,21 @@ public class DAOTareas {
 
     }
 
-    public ArrayList<Tarea> buscarporTitulo(String[] titulo){
+    public ArrayList<Tarea> agregar(String[] titulo){
         ArrayList<Tarea> tareas = new ArrayList<>();
 
         String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_TAREA[0], BaseDeDatos.COLUMNS_NAME_TAREA[1], BaseDeDatos.COLUMNS_NAME_TAREA[2], BaseDeDatos.COLUMNS_NAME_TAREA[3], BaseDeDatos.COLUMNS_NAME_TAREA[4]};
-        Cursor cursor = _sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA, columnasAConsultar, "titulo = ? OR descripcion = ?", titulo, null, null, null);
+        Cursor cursor = _sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA,BaseDeDatos.COLUMNS_NAME_TAREA, null, null, null, null,null);
 
         if(titulo[0].equals("")){
 
-            cursor = _sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA, columnasAConsultar, null, null, null, null, null);
+            cursor = _sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA, BaseDeDatos.COLUMNS_NAME_TAREA, null, null, null, null, null);
         }
 
         if (cursor == null){
             return tareas;
         }
+
 
         if (!cursor.moveToFirst()) return tareas;
 
@@ -121,5 +118,17 @@ public class DAOTareas {
 
         cursor.close();
         return tareas;
+    }
+
+    public Cursor getAllCursor() {
+        Cursor cursor = _sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA,
+                BaseDeDatos.COLUMNS_NAME_TAREA,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+        return cursor;
     }
 }

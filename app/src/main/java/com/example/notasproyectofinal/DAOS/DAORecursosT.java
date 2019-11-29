@@ -8,7 +8,6 @@ import android.net.Uri;
 
 import com.example.notasproyectofinal.Archivos;
 import com.example.notasproyectofinal.ArchivosT;
-import com.example.notasproyectofinal.BaseDeDatos;
 
 import java.util.ArrayList;
 

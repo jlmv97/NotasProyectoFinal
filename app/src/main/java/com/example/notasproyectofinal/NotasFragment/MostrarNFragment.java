@@ -8,14 +8,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.example.notasproyectofinal.DAOS.DAONota;
+import com.example.notasproyectofinal.Nota;
 import com.example.notasproyectofinal.R;
+
+import java.util.ArrayList;
 
 public class MostrarNFragment extends Fragment {
 
@@ -31,48 +39,61 @@ public class MostrarNFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.mostra_n_fragment, container, false);
     }
-
-    ListView lv;
+    private DAONota dao;
+    private ListView lv;
+    private ArrayList<Nota> notas;
+    private ArrayAdapter<Nota> adapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MostrarNViewModel.class);
         // TODO: Use the ViewModel
-        DAONota dao = new DAONota(getContext());
-        lv = getView().findViewById(R.id.lv_mostrarnota);
-        //Llena el listview
-        SimpleCursorAdapter adp =
-                new SimpleCursorAdapter(
-                        getContext(),
-                        android.R.layout.simple_list_item_2,
-                        dao.getAllCursor(),
-                        new String[]{"_titulo","_fecha"},
-                        new int[]{android.R.id.text1,android.R.id.text2},
-                        SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
-                );
-        lv.setAdapter(adp);
-
+        llenar();
+        registerForContextMenu(lv);
         //Aqui va el codigo para el fragmento oswi
 
 
     }
 
+    public void llenar (){
+        DAONota dao = new DAONota(getActivity());
+        String[] Notas = {"",""};
+        lv = getView().findViewById(R.id.lv_mostrarnota);
+        notas = dao.agregar(Notas);
+        adapter= new ArrayAdapter<Nota>(getActivity(),android.R.layout.simple_list_item_1,notas);
+
+        lv.setAdapter(adapter);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        DAONota dao = new DAONota(getContext());
-        lv = getView().findViewById(R.id.lv_mostrarnota);
-        //Llena el listview
-        SimpleCursorAdapter adp =
-                new SimpleCursorAdapter(
-                        getContext(),
-                        android.R.layout.simple_list_item_2,
-                        dao.getAllCursor(),
-                        new String[]{"_titulo","_fecha"},
-                        new int[]{android.R.id.text1,android.R.id.text2},
-                        SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
-                );
-        lv.setAdapter(adp);
+        llenar();
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.menu_context,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        dao = new DAONota(getActivity());
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        lv =  getActivity().findViewById(R.id.lv_mostrarnota);
+        Nota nota = (Nota) lv.getItemAtPosition(info.position);
+        switch (item.getItemId()){
+            case R.id.btn_eliminar:
+                dao.delete(nota.getId());
+                llenar();
+                return true;
+            case R.id.btn_act:
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

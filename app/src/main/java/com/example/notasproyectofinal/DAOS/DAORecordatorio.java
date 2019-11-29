@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.notasproyectofinal.BaseDeDatos;
 import com.example.notasproyectofinal.Recordatorio;
 
 import java.util.ArrayList;
