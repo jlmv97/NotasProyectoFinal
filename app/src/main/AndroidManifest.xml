@@ -15,8 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Tareas"></activity>
-        <activity android:name=".Notas" />
+        <activity android:name=".Tareas"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".Notas"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

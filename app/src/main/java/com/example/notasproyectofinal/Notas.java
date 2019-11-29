@@ -1,19 +1,26 @@
 package com.example.notasproyectofinal;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -27,24 +34,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class Notas extends AppCompatActivity {
     //Variables
     EditText titulo;
     EditText mensaje;
     RecyclerView recycler;
     PopupMenu opciones;
+    ImageButton menu;
     public MultiAdapter adaptador;
     public ArrayList<Adjuntos> pls = new ArrayList<>();
     public DAONota nota;
     private Calendar c = Calendar.getInstance();
+    private Uri selectedImage;
+    private Uri photoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notas);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         adaptador = new MultiAdapter(pls,this);
         titulo = findViewById(R.id.txt_titulo_nota);
         mensaje = findViewById(R.id.txt_cuerpo_nota);
+        menu = findViewById(R.id.btn_adjuntar);
         nota = new DAONota(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
@@ -52,6 +68,55 @@ public class Notas extends AppCompatActivity {
         recycler.setLayoutManager(linearLayoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
         recycler.setAdapter(adaptador);
+
+        if (validarPermisos()) {
+            menu.setEnabled(true);
+
+        } else {
+            menu.setEnabled(false);
+        }
+
+    }
+
+    private boolean validarPermisos() {
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            return true;
+        }
+
+        if( (checkSelfPermission(RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
+            return true;
+        }
+
+        if( (checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) &&
+                (checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)){
+            return true;
+        }
+
+        if( (shouldShowRequestPermissionRationale(CAMERA)) ||
+                (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) ){
+            PermisosRecomendados();
+        }else{
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,CAMERA,RECORD_AUDIO}, 100);
+        }
+
+        return false;
+    }
+
+    private void PermisosRecomendados() {
+        AlertDialog.Builder dialogo =  new AlertDialog.Builder(this);
+        dialogo.setTitle("Permisos no otorgados");
+        dialogo.setMessage("Ahora no joven! debe dar permiso para que la app pueda funcionar");
+
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M) //esto se agrego porque marcaba error el requestPermissions
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,CAMERA}, 100);
+            }
+        });
+        dialogo.show();
     }
 
     public void Adjuntar(View view) {///Manda llamar los dintos metodos para adjuntar archivos
