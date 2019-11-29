@@ -26,11 +26,6 @@
         android:theme="@style/AppTheme" >
         <activity android:name="com.example.notasproyectofinal.Tareas" />
         <activity android:name="com.example.notasproyectofinal.Notas" />
-        <activity android:name="com.example.notasproyectofinal.Seleccion" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
         <activity
             android:name="com.example.notasproyectofinal.MainActivity"
             android:label="@string/app_name"

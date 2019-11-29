@@ -106,6 +106,7 @@ public class Notas extends AppCompatActivity {
         }
         Intent home = new Intent(this,MainActivity.class);
         startActivity(home);
+        finish();
         if(pls.isEmpty()){
 
         }else{
