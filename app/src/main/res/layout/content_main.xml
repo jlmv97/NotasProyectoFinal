@@ -29,13 +29,13 @@
             android:id="@+id/tab_nota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notas" />
+            android:text="@string/notas" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_tarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tareas" />
+            android:text="@string/tareas" />
 
     </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

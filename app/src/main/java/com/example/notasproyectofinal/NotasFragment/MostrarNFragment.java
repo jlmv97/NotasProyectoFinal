@@ -2,6 +2,7 @@ package com.example.notasproyectofinal.NotasFragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
+import com.example.notasproyectofinal.actualizar_notas;
 import com.example.notasproyectofinal.DAOS.DAONota;
 import com.example.notasproyectofinal.Nota;
 import com.example.notasproyectofinal.R;
@@ -91,6 +92,9 @@ public class MostrarNFragment extends Fragment {
                 llenar();
                 return true;
             case R.id.btn_act:
+                Intent intent = new Intent(getActivity(), actualizar_notas.class);
+                intent.putExtra("nota",nota);
+                startActivity(intent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

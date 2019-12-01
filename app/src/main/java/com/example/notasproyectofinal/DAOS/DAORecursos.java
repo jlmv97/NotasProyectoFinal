@@ -59,12 +59,12 @@ public class DAORecursos {
         do {
 
             int idObtenidoDeBD = cursor.getInt(0);
-            Uri pathObtenidoDeBD = Uri.parse(cursor.getString(1));
-            int tipoObtenidoDeBD = cursor.getInt(2);
-            String descripcionObtenidoDeBD = cursor.getString(3);
-            int idTareaObtenidoDeBD = cursor.getInt(4);
+            int tipoObtenidoDeBD = cursor.getInt(1);
+            String descripcionObtenidoDeBD = cursor.getString(2);
+            Uri pathObtenidoDeBD = Uri.parse(cursor.getString(3));
+            int idNotaObtenidoDeBD = cursor.getInt(4);
 
-            Archivos rutaObtenidoDeBD = new Archivos(idObtenidoDeBD, pathObtenidoDeBD, tipoObtenidoDeBD, descripcionObtenidoDeBD, idTareaObtenidoDeBD);
+            Archivos rutaObtenidoDeBD = new Archivos(idObtenidoDeBD, tipoObtenidoDeBD, descripcionObtenidoDeBD, pathObtenidoDeBD, idNotaObtenidoDeBD);
             rutas.add(rutaObtenidoDeBD);
 
         } while (cursor.moveToNext());

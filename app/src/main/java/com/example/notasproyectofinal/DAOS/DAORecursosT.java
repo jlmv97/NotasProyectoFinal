@@ -31,7 +31,7 @@ public class DAORecursosT {
     }
 
     public boolean delete (int id){
-        return sqLiteDatabase.delete(BaseDeDatos.TABLE_NAME_ARCHIVOS,"_idNota=?",new String[]{Integer.toString(id)})>0;
+        return sqLiteDatabase.delete(BaseDeDatos.TABLE_NAME_ARCHIVOS,"_idTarea=?",new String[]{Integer.toString(id)})>0;
     }
 
     public boolean update(int id, ContentValues contentValues){
@@ -39,12 +39,12 @@ public class DAORecursosT {
                 "_idArchivo="+id,null) > 0;
     }
 
-    public ArrayList<Archivos> buscarObjeto(String[] id){
-        ArrayList<Archivos> rutas = new ArrayList<>();
+    public ArrayList<ArchivosT> buscarObjeto(String[] id){
+        ArrayList<ArchivosT> rutas = new ArrayList<>();
 
         ////////////////
         String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_ARCHIVOST[0],BaseDeDatos.COLUMNS_NAME_ARCHIVOST[1],BaseDeDatos.COLUMNS_NAME_ARCHIVOST[2],BaseDeDatos.COLUMNS_NAME_ARCHIVOST[3],BaseDeDatos.COLUMNS_NAME_ARCHIVOST[4]};
-        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_ARCHIVOST, columnasAConsultar, "_idNota = ?", id, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_ARCHIVOST, columnasAConsultar, "_idTarea = ?", id, null, null, null);
 
         if(id[0].equals("")){
 
@@ -60,12 +60,12 @@ public class DAORecursosT {
         do {
 
             int idObtenidoDeBD = cursor.getInt(0);
-            Uri pathObtenidoDeBD = Uri.parse(cursor.getString(1));
-            int tipoObtenidoDeBD = cursor.getInt(2);
-            String descripcionObtenidoDeBD = cursor.getString(3);
+            int tipoObtenidoDeBD = cursor.getInt(1);
+            String descripcionObtenidoDeBD = cursor.getString(2);
+            Uri pathObtenidoDeBD = Uri.parse(cursor.getString(3));
             int idTareaObtenidoDeBD = cursor.getInt(4);
 
-            Archivos rutaObtenidoDeBD = new Archivos(idObtenidoDeBD, pathObtenidoDeBD, tipoObtenidoDeBD, descripcionObtenidoDeBD, idTareaObtenidoDeBD);
+            ArchivosT rutaObtenidoDeBD = new ArchivosT(idObtenidoDeBD, pathObtenidoDeBD, tipoObtenidoDeBD, descripcionObtenidoDeBD, idTareaObtenidoDeBD);
             rutas.add(rutaObtenidoDeBD);
 
         } while (cursor.moveToNext());

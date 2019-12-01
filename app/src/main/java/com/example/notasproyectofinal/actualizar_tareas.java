@@ -48,7 +48,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class actualizar_tareas extends AppCompatActivity {
+public class actualizar_tareas extends AppCompatActivity implements Dialogo.ExampleDilaogListener {
 
     EditText titulo;
     EditText mensaje;
@@ -57,31 +57,40 @@ public class actualizar_tareas extends AppCompatActivity {
     PopupMenu opciones;
     ImageButton menu;
     ImageButton grabar;
-    public MultiAdapter adaptador;
-    public ArrayList<Adjuntos> pls = new ArrayList<>();
-    public DAOTareas tarea;
+    MultiAdapter adaptador;
+    ArrayList<Adjuntos> pls = new ArrayList<>();
+    ArrayList<Adjuntos> plsNew = new ArrayList<>();
+    DAOTareas tarea;
     private Calendar c = Calendar.getInstance();
     String currentPhotoPath;
     Tarea tareas;
     private int day, month, year, hour, min;
     String m,d,fecha, hora, minutos, hr;
+    private String descripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_tareas);
-        adaptador = new MultiAdapter(pls,this);
+        tareas = (Tarea) getIntent().getExtras().getSerializable("tarea");
         titulo = findViewById(R.id.txt_titulo_tarea);
+        titulo.setText(tareas.getTitulo());
         mensaje = findViewById(R.id.txt_cuerpo_tarea);
+        mensaje.setText(tareas.getDescripcion());
         menu = findViewById(R.id.btn_adjuntar);
         grabar = findViewById(R.id.btn_grabar);
         fechas = findViewById(R.id.txt_fecha);
+        String date= tareas.getFecha()+" "+tareas.getHora();
+        fechas.setText(date);
         tarea = new DAOTareas(this);
+
+        pls = getRutas();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         recycler = findViewById(R.id.recy_multi);
         recycler.setLayoutManager(linearLayoutManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
+        adaptador = new MultiAdapter(pls,this);
         recycler.setAdapter(adaptador);
 
         if (validarPermisos()) {
@@ -136,6 +145,7 @@ public class actualizar_tareas extends AppCompatActivity {
     //POP UP MENU///////////////////////////////////////////////////////
 
     public void Adjuntar(View view) {///Manda llamar los dintos metodos para adjuntar archivos
+        openDialog();
         opciones = new PopupMenu(this,view);
         opciones.getMenuInflater().inflate(R.menu.menu_adjuntar,opciones.getMenu());
         opciones.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -227,6 +237,7 @@ public class actualizar_tareas extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void grabarAudio(View view){
+        openDialog();
         if(grabacion==null){
             String timeStamp = new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             archivoSalida = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Grabacion_"+timeStamp+".mp3";
@@ -265,59 +276,62 @@ public class actualizar_tareas extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 0://Tomar Foto
-                Adjuntos adjuntos1 = new Adjuntos(0,"",Uri.parse(currentPhotoPath));
+                Adjuntos adjuntos1 = new Adjuntos(0,descripcion,Uri.parse(currentPhotoPath));
                 pls.add(adjuntos1);
+                plsNew.add(adjuntos1);
                 recycler.setAdapter(adaptador);
                 break;
             case 1://Tomar video
                 Uri videoUri2 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos2 = new Adjuntos(2,"Adios", videoUri2);
+                Adjuntos adjuntos2 = new Adjuntos(2,descripcion, videoUri2);
                 pls.add(adjuntos2);
+                plsNew.add(adjuntos2);
                 recycler.setAdapter(adaptador);
                 break;
             case 2:
                 Uri videoUri3 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos3 = new Adjuntos(2,"hola", videoUri3);
+                Adjuntos adjuntos3 = new Adjuntos(2,descripcion, videoUri3);
                 pls.add(adjuntos3);
+                plsNew.add(adjuntos3);
                 recycler.setAdapter(adaptador);
+                int e;
                 break;
             case 3:
                 Uri ima = data.getData();
-                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,"HH",ima);
+                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,descripcion,ima);
                 pls.add(adjuntos4);
+                plsNew.add(adjuntos4);
                 recycler.setAdapter(adaptador);
                 break;
         }
 
     }
-    //METODOS PARA INSERTAR LAS NOTAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
-    public void AgregarTarea(View view) {///Agrega la nota a la base de datos
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String hour = new SimpleDateFormat( "HH:mm:ss").format(new Date());
-        tarea.insert(new Tarea(0,titulo.getText().toString(),mensaje.getText().toString(),date,hour));
-        if(pls.isEmpty()){
 
-        }else{
-            insertaruri();
-        }
-        finish();
-        if(pls.isEmpty()){
+    //BUSCA LAS RUTAS DE LOS ARCHIVOS DE LA TAREAS Y LOS AGREGA AL ARRAYLIST///////////////////
+    private ArrayList<Adjuntos>getRutas(){
+        ArrayList<Adjuntos> listaDBRutas = new ArrayList<>();
+        DAORecursosT daoRecursos = new DAORecursosT(this);
+        String[] idNota = {""+tareas.getId()};
 
-        }else{
-            insertaruri();
+        for(int i =0;i<daoRecursos.buscarObjeto(idNota).size();i++){
+            ArchivosT ruta = daoRecursos.buscarObjeto(idNota).get(i);
+            listaDBRutas.add(new Adjuntos(ruta.getTipo(),ruta.getDescripcion(),ruta.getRuta()));
         }
+        return listaDBRutas;
     }
+
+    //METODOS PARA ACTUALIZAR LAS TAREAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
 
     public void insertaruri (){
         String[] Tarea1 = {""};
         DAOTareas daoTarea = new DAOTareas(this);
-        ArrayList<Integer> arrayIds = new ArrayList<>();
-        arrayIds = daoTarea.buscarUltimoId(Tarea1);
+        //ArrayList<Integer> arrayIds = new ArrayList<>();
+        //arrayIds = daoTarea.buscarUltimoId(Tarea1);
 
-        for (int i = 0; i < pls.size(); i++) {
+        for (int i = 0; i < plsNew.size(); i++) {
 
 
-            ArchivosT ruta = new ArchivosT(0, pls.get(i).data, pls.get(i).type,pls.get(i).text ,arrayIds.get(arrayIds.size()-1));
+            ArchivosT ruta = new ArchivosT(0, plsNew.get(i).data, plsNew.get(i).type,plsNew.get(i).text ,tareas.getId());
             DAORecursosT daoRecursos = new DAORecursosT(this);
 
             daoRecursos.insert(ruta);
@@ -395,12 +409,27 @@ public class actualizar_tareas extends AppCompatActivity {
 
         DAOTareas dao = new DAOTareas(this);
 
-        switch (view.getId()) {
-            case R.id.btn_actualizarT:
                 dao.update(tareas);
-                finish();
-        }
+                if(plsNew.isEmpty()){
 
+                }else{
+                    insertaruri();
+                }
+                finish();
+
+
+    }
+
+    //DIALOGO PARA AGREGAR DESCRIPCION
+    public void openDialog(){
+        Dialogo dialog = new Dialogo();
+        dialog.show(getSupportFragmentManager(), "Dialogo");
+    }
+
+    @Override
+    public void applyTexts(String descripcion) {
+        //txtDescripcion.setText(descripcion); //solo para probar si obtiene
+        this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
     }
 
 

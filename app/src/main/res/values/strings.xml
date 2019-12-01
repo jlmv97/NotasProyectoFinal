@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">NotasProyectoFinal</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="hint_titulo">Titulo</string>
+    <string name="hint_texto">Texto</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="adjuntar_video">Adjuntar Video</string>
+    <string name="adjuntar_imagenes">Adjuntar Imagen</string>
+    <string name="tomar_foto">Tomar Foto</string>
+    <string name="grabar_video">Grabar Video</string>
+    <string name="notas">Notas</string>
+    <string name="tareas">Tareas</string>
+    <string name="guardar">Guardar</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="dialog_description">Ingrese una descripcion</string>
+    <string name="cancel">Cancelar</string>
+    <string name="aceptar">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

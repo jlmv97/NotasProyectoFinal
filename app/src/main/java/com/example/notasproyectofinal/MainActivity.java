@@ -1,6 +1,7 @@
 package com.example.notasproyectofinal;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.notasproyectofinal.DAOS.DAONota;

@@ -49,9 +49,8 @@ public class MultiAdapter extends RecyclerView.Adapter {
 
         public ImageTypeViewHolder(View itemView){
             super(itemView);
-
-            this.textView = (TextView) itemView.findViewById(R.id.type);
             this.imageView = (ImageView) itemView.findViewById(R.id.background);
+            this.textView = (TextView) itemView.findViewById(R.id.type);
         }
     }
 
@@ -72,8 +71,8 @@ public class MultiAdapter extends RecyclerView.Adapter {
 
         public VideoTyoeViewHolder(View itemView){
             super(itemView);
-            this.textView = (TextView) itemView.findViewById(R.id.type);
             this.videoView =(VideoView) itemView.findViewById(R.id.play_it);
+            this.textView = (TextView) itemView.findViewById(R.id.type);
         }
     }
 
@@ -135,8 +134,11 @@ public class MultiAdapter extends RecyclerView.Adapter {
 
                             if (fabStateVolume) {
                                 if (mPlayer.isPlaying()) {
-                                    mPlayer.stop();
+                                    mPlayer.pause();
 
+                                }
+                                if(!mPlayer.isPlaying()){
+                                    mPlayer.release();
                                 }
                                 //((AudioTypeViewHolder) holder).fab.setImageResource(R.drawable.volume);
                                 //fabStateVolume = false;

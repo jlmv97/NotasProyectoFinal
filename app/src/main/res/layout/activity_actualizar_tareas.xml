@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="Titulo"
+        android:hint="@string/hint_titulo"
         android:inputType="textPersonName" />
 
     <EditText
@@ -26,17 +26,19 @@
         android:layout_marginTop="89dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Nota"
+        android:hint="@string/hint_texto"
         android:inputType="textMultiLine" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_multi"
-        android:layout_width="305dp"
-        android:layout_height="328dp"
+        android:layout_width="310dp"
+        android:layout_height="353dp"
 
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_recordatorio"
+        android:layout_below="@+id/txt_cuerpo_tarea"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginBottom="51dp"
         android:isScrollContainer="true"
         android:scrollbars="vertical" />
 
@@ -67,7 +69,7 @@
         android:layout_marginRight="35dp"
         android:layout_marginBottom="37dp"
         android:onClick="ActualizarTarea"
-        android:text="Actualizar" />
+        android:text="@string/actualizar" />
 
     <ImageButton
         android:id="@+id/btn_grabar"
@@ -108,5 +110,23 @@
         android:background="#00FFFFFF"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/alarma" />
+
+    <TextView
+        android:id="@+id/txt_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_actualizarT"
+        android:layout_alignTop="@+id/btn_recordatorio"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="82dp"
+        android:layout_marginLeft="82dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="87dp"
+        android:layout_marginRight="87dp"
+        android:layout_marginBottom="27dp"
+        android:layout_toEndOf="@+id/btn_recordatorio"
+        android:layout_toRightOf="@+id/btn_recordatorio"
+        android:text='""' />
 
 </RelativeLayout>

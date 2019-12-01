@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -43,7 +44,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class Notas extends AppCompatActivity {
+public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogListener {
     //Variables
     EditText titulo;
     EditText mensaje;
@@ -56,6 +57,7 @@ public class Notas extends AppCompatActivity {
     public DAONota nota;
     private Calendar c = Calendar.getInstance();
     String currentPhotoPath;
+    private String descripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,9 @@ public class Notas extends AppCompatActivity {
         } else {
             menu.setEnabled(false);
         }
+        DAORecursos daoRecursos = new DAORecursos(this);
+
+        Toast.makeText(this,daoRecursos.buscar("4"),Toast.LENGTH_SHORT).show();
 
     }
     //VALIDACION DE PERMISOS/////////////////////////////////////////////////////////
@@ -127,6 +132,7 @@ public class Notas extends AppCompatActivity {
     //POP UP MENU///////////////////////////////////////////////////////
 
     public void Adjuntar(View view) {///Manda llamar los dintos metodos para adjuntar archivos
+        openDialog();
         opciones = new PopupMenu(this,view);
         opciones.getMenuInflater().inflate(R.menu.menu_adjuntar,opciones.getMenu());
         opciones.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -158,12 +164,12 @@ public class Notas extends AppCompatActivity {
     public void buscarImg (){//AGREGAR IMAGEN DE LA GALLERIA
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         intent.setType("image/");
-        startActivityForResult(intent,3);
+        startActivityForResult(intent,4);
     }
     public void buscarVid() {//AGREGA VIDEO DE LA GALERIA
         Intent intentGaleria = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intentGaleria.setType("video/");
-        startActivityForResult(intentGaleria.createChooser(intentGaleria,"Seleccione una app"),2);
+        startActivityForResult(intentGaleria.createChooser(intentGaleria,"Seleccione una app"),3);
     }
     @RequiresApi(api = Build.VERSION_CODES.N) //CREA EL ARCHIVO PARA COLOCAR LA FOTO
     private File createImageFile() throws IOException {
@@ -200,14 +206,14 @@ public class Notas extends AppCompatActivity {
                         "com.example.notasproyectofinal.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, 0);
+                startActivityForResult(takePictureIntent, 1);
             }
         }
     }
     private void dispatchTakeVideoIntent() {//ABRE LA CAMARA PARA GRABAR
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, 1);
+            startActivityForResult(takeVideoIntent, 2);
         }
     }
 
@@ -218,6 +224,7 @@ public class Notas extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void grabarAudio(View view){
+        openDialog();
         if(grabacion==null){
             String timeStamp = new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             archivoSalida = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Grabacion_"+timeStamp+".mp3";
@@ -242,7 +249,7 @@ public class Notas extends AppCompatActivity {
             grabacion = null; //para que pueda vo++lver a grabar si se presiona el boton nuevamente
             grabar.setColorFilter(Color.argb(255, 0, 0, 0)); // ya no grabando, regresa a color negro
 
-            Adjuntos model = new Adjuntos(1, "", Uri.parse(archivoSalida));
+            Adjuntos model = new Adjuntos(1, descripcion, Uri.parse(archivoSalida));
             pls.add(model);
             recycler.setAdapter(adaptador);
 
@@ -255,28 +262,31 @@ public class Notas extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case 0://Tomar Foto
-                Adjuntos adjuntos1 = new Adjuntos(0,"",Uri.parse(currentPhotoPath));
+            case 1://Tomar Foto
+                Adjuntos adjuntos1 = new Adjuntos(0,descripcion,Uri.parse(currentPhotoPath));
                 pls.add(adjuntos1);
                 recycler.setAdapter(adaptador);
                 break;
-            case 1://Tomar video
+            case 2://Tomar video
                 Uri videoUri2 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos2 = new Adjuntos(2,"Adios", videoUri2);
+                Adjuntos adjuntos2 = new Adjuntos(2,descripcion, videoUri2);
                 pls.add(adjuntos2);
                 recycler.setAdapter(adaptador);
                 break;
-            case 2:
+            case 3:
                 Uri videoUri3 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos3 = new Adjuntos(2,"hola", videoUri3);
+                Adjuntos adjuntos3 = new Adjuntos(2,descripcion, videoUri3);
                 pls.add(adjuntos3);
                 recycler.setAdapter(adaptador);
+                int i;
                 break;
-            case 3:
+            case 4:
                 Uri ima = data.getData();
-                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,"HH",ima);
+                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,descripcion,ima);
                 pls.add(adjuntos4);
                 recycler.setAdapter(adaptador);
+                break;
+            case RESULT_CANCELED:
                 break;
         }
 
@@ -291,11 +301,6 @@ public class Notas extends AppCompatActivity {
             insertaruri();
         }
         finish();
-        if(pls.isEmpty()){
-
-        }else{
-            insertaruri();
-        }
     }
 
     public void insertaruri (){
@@ -307,7 +312,7 @@ public class Notas extends AppCompatActivity {
             for (int i = 0; i < pls.size(); i++) {
 
 
-                Archivos ruta = new Archivos(0, pls.get(i).data, pls.get(i).type,pls.get(i).text ,arrayIds.get(arrayIds.size()-1));
+                Archivos ruta = new Archivos(0, pls.get(i).type,pls.get(i).text ,pls.get(i).data,arrayIds.get(arrayIds.size()-1));
                 DAORecursos daoRecursos = new DAORecursos(this);
 
                 daoRecursos.insert(ruta);
@@ -316,4 +321,18 @@ public class Notas extends AppCompatActivity {
 
         }
     }
+
+    //DIALOGO PARA AGREGAR DESCRIPCION
+    public void openDialog(){
+        Dialogo dialog = new Dialogo();
+        dialog.show(getSupportFragmentManager(), "Dialogo");
+    }
+
+    @Override
+    public void applyTexts(String descripcion) {
+        //txtDescripcion.setText(descripcion); //solo para probar si obtiene
+        this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
+    }
+
+
 }

@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/popCamara"
-        android:title="Tomar foto"></item>
+        android:title="@string/tomar_foto"></item>
     <item
         android:id="@+id/popVideo"
-        android:title="Tomar video"></item>
+        android:title="@string/grabar_video"></item>
     <item
         android:id="@+id/popAjuntarV"
-        android:title="Adjuntar video"></item>
+        android:title="@string/adjuntar_video"></item>
     <item
         android:id="@+id/popAjuntarF"
-        android:title="Adjuntar foto"></item>
+        android:title="@string/adjuntar_imagenes"></item>
 </menu>

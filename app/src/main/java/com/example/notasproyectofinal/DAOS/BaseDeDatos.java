@@ -59,12 +59,12 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     public static final String TABLE_NAME_ARCHIVOS = "ArchivosN";
 
     public static final String[] COLUMNS_NAME_ARCHIVOS = {
-        "_idArchivo","_descripcion","_tipo","_ruta","_idNota"};
+        "_idArchivo","_tipo","_descripcion","_ruta","_idNota"};
 
     public static final String TABLE_NAME_ARCHIVOST = "ArchivosT";
 
     public static final String[] COLUMNS_NAME_ARCHIVOST = {
-            "_idArchivo","_descripcion","_tipo","_ruta","_idTarea"};
+            "_idArchivo","_tipo","_descripcion","_ruta","_idTarea"};
 
     public static final String[] COLUMNS_NAME_RECORDATORIO =
             {"_id", "_fecha", "_hora", "_idTarea"};

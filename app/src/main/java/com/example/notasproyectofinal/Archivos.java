@@ -9,7 +9,7 @@ public class Archivos {
     String descripcion;
     int idNotas;
 
-    public Archivos(int id, Uri ruta, int tipo, String descripcion, int idNotas) {
+    public Archivos(int id, int tipo, String descripcion, Uri ruta, int idNotas) {
         this.id = id;
         this.ruta = ruta;
         this.tipo = tipo;

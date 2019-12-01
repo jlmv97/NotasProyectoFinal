@@ -2,6 +2,7 @@ package com.example.notasproyectofinal.MultimediaFragment;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.example.notasproyectofinal.DAOS.DAOTareas;
 import com.example.notasproyectofinal.Nota;
 import com.example.notasproyectofinal.R;
 import com.example.notasproyectofinal.Tarea;
+import com.example.notasproyectofinal.actualizar_tareas;
 
 import java.util.ArrayList;
 
@@ -92,6 +94,9 @@ public class MostrarTFragment extends Fragment {
                 llenar();
                 return true;
             case R.id.btn_act:
+                Intent intent = new Intent(getActivity(), actualizar_tareas.class);
+                intent.putExtra("tarea",tarea);
+                startActivity(intent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

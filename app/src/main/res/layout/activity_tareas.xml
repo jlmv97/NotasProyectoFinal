@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="Titulo"
+        android:hint="@string/hint_titulo"
         android:inputType="textPersonName" />
 
     <EditText
@@ -25,17 +25,19 @@
         android:layout_marginTop="89dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Nota"
+        android:hint="@string/hint_texto"
         android:inputType="textMultiLine" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_multi"
-        android:layout_width="305dp"
-        android:layout_height="328dp"
+        android:layout_width="312dp"
+        android:layout_height="359dp"
 
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_recordatorio"
+        android:layout_below="@+id/txt_cuerpo_tarea"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginBottom="45dp"
         android:isScrollContainer="true"
         android:scrollbars="vertical" />
 
@@ -66,7 +68,7 @@
         android:layout_marginRight="43dp"
         android:layout_marginBottom="31dp"
         android:onClick="AgregarTarea"
-        android:text="Guardar" />
+        android:text="@string/guardar" />
 
     <ImageButton
         android:id="@+id/btn_grabar"

@@ -14,12 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"/>
+
         <VideoView
             android:id="@+id/play_it"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_photo_size_select_actual_black_48dp"/>
+            android:scaleType="center"
+            android:src="@drawable/ic_photo_size_select_actual_black_48dp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -52,7 +53,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class Tareas extends AppCompatActivity {
+public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogListener {
     //Variables
     EditText titulo;
     EditText mensaje;
@@ -74,6 +75,7 @@ public class Tareas extends AppCompatActivity {
     private int dayRecordaotio, monthRecordatorio, yearRecordatorio, hourRecordatorio, minRecordatorio;
     String mRecordatorio,dRecordatorios,fechaRecordatorio, horaRecordatorio, minutosRecordatorio, hrRecordatorios;
     Tarea tr;
+    private String descripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +148,7 @@ public class Tareas extends AppCompatActivity {
     //POP UP MENU///////////////////////////////////////////////////////
 
     public void Adjuntar(View view) {///Manda llamar los dintos metodos para adjuntar archivos
+        openDialog();
         opciones = new PopupMenu(this,view);
         opciones.getMenuInflater().inflate(R.menu.menu_adjuntar,opciones.getMenu());
         opciones.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -237,6 +240,7 @@ public class Tareas extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void grabarAudio(View view){
+        openDialog();
         if(grabacion==null){
             String timeStamp = new android.icu.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             archivoSalida = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Grabacion_"+timeStamp+".mp3";
@@ -275,32 +279,32 @@ public class Tareas extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 0://Tomar Foto
-                Adjuntos adjuntos1 = new Adjuntos(0,"",Uri.parse(currentPhotoPath));
+                Adjuntos adjuntos1 = new Adjuntos(0,descripcion,Uri.parse(currentPhotoPath));
                 pls.add(adjuntos1);
                 recycler.setAdapter(adaptador);
                 break;
             case 1://Tomar video
                 Uri videoUri2 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos2 = new Adjuntos(2,"Adios", videoUri2);
+                Adjuntos adjuntos2 = new Adjuntos(2,descripcion, videoUri2);
                 pls.add(adjuntos2);
                 recycler.setAdapter(adaptador);
                 break;
             case 2:
                 Uri videoUri3 = data.getData();//videoView.setVideoURI(videoUri);
-                Adjuntos adjuntos3 = new Adjuntos(2,"hola", videoUri3);
+                Adjuntos adjuntos3 = new Adjuntos(2,descripcion, videoUri3);
                 pls.add(adjuntos3);
                 recycler.setAdapter(adaptador);
                 break;
             case 3:
                 Uri ima = data.getData();
-                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,"HH",ima);
+                Adjuntos adjuntos4 = new Adjuntos(Adjuntos.IMAGE_TYPE,descripcion,ima);
                 pls.add(adjuntos4);
                 recycler.setAdapter(adaptador);
                 break;
         }
 
     }
-    //METODOS PARA INSERTAR LAS NOTAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
+    //METODOS PARA INSERTAR LAS TAREAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void AgregarTarea(View view) {///Agrega la nota a la base de datos
         tr = new  Tarea(0,titulo.getText().toString(),mensaje.getText().toString(),fecha,hr);
@@ -310,18 +314,10 @@ public class Tareas extends AppCompatActivity {
         }else{
             insertaruri();
         }
-        finish();
-        if(pls.isEmpty()){
-
-        }else{
-            insertaruri();
-        }
         DAORecordatorio n = new DAORecordatorio(this);
-
-        String r = n.busqueda("1");
-        Toast.makeText(this,"",Toast.LENGTH_LONG).show();
         crearNotificacion(year,month,day,hour,min);
         insertRecordatorios(view);
+        finish();
 
     }
 
@@ -524,4 +520,20 @@ public class Tareas extends AppCompatActivity {
 
         //Toast.makeText(this, "Se creo la notificacion ", Toast.LENGTH_SHORT).show();
     }
+
+    //DIALOGO PARA AGREGAR DESCRIPCION
+    public void openDialog(){
+        Dialogo dialog = new Dialogo();
+        dialog.show(getSupportFragmentManager(), "Dialogo");
+    }
+
+    @Override
+    public void applyTexts(String descripcion) {
+        //txtDescripcion.setText(descripcion); //solo para probar si obtiene
+        this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
+    }
+
+
+
+
 }

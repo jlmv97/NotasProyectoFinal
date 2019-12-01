@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/btn_act"
-        android:title="Actualizar"></item>
+        android:title="@string/actualizar"></item>
     <item
         android:id="@+id/btn_eliminar"
-        android:title="Eliminar"></item>
+        android:title="@string/eliminar"></item>
 </menu>
