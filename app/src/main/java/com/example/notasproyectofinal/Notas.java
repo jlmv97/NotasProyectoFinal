@@ -83,9 +83,6 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
         } else {
             menu.setEnabled(false);
         }
-        DAORecursos daoRecursos = new DAORecursos(this);
-
-        Toast.makeText(this,daoRecursos.buscar("4"),Toast.LENGTH_SHORT).show();
 
     }
     //VALIDACION DE PERMISOS/////////////////////////////////////////////////////////
@@ -116,10 +113,10 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
     }
     private void PermisosRecomendados() {
         AlertDialog.Builder dialogo =  new AlertDialog.Builder(this);
-        dialogo.setTitle("Permisos no otorgados");
-        dialogo.setMessage("Ahora no joven! debe dar permiso para que la app pueda funcionar");
+        dialogo.setTitle(R.string.sure);
+        dialogo.setMessage(R.string.sorry);
 
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+        dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M) //esto se agrego porque marcaba error el requestPermissions
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -241,7 +238,7 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
 
             }
             grabar.setColorFilter(Color.argb(255, 255, 0, 0)); // Cuando este grabando lo pongo color rojo
-            Toast.makeText(getApplicationContext(),"Grabando",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.grabando,Toast.LENGTH_SHORT).show();
 
         }else if(grabacion!=null){
             grabacion.stop();
@@ -253,7 +250,7 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
             pls.add(model);
             recycler.setAdapter(adaptador);
 
-            Toast.makeText(getApplicationContext(),"finalizada",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.finalizado,Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -293,6 +290,9 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
     }
     //METODOS PARA INSERTAR LAS NOTAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
     public void AgregarNota(View view) {///Agrega la nota a la base de datos
+        if (titulo.getText().toString().isEmpty()||mensaje.getText().toString().isEmpty()){
+            Toast.makeText(this,R.string.llenar,Toast.LENGTH_SHORT);
+        }else{
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         nota.insert(new Nota(0,titulo.getText().toString(),mensaje.getText().toString(),date));
         if(pls.isEmpty()){
@@ -301,6 +301,7 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
             insertaruri();
         }
         finish();
+        }
     }
 
     public void insertaruri (){
@@ -333,6 +334,4 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
         //txtDescripcion.setText(descripcion); //solo para probar si obtiene
         this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
     }
-
-
 }

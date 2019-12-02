@@ -3,6 +3,7 @@ package com.example.notasproyectofinal.NotasFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.notasproyectofinal.actualizar_notas;
@@ -44,6 +47,8 @@ public class MostrarNFragment extends Fragment {
     private ListView lv;
     private ArrayList<Nota> notas;
     private ArrayAdapter<Nota> adapter;
+    EditText criterio;
+    Button buscar;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -52,8 +57,21 @@ public class MostrarNFragment extends Fragment {
         // TODO: Use the ViewModel
         llenar();
         registerForContextMenu(lv);
-        //Aqui va el codigo para el fragmento oswi
+        criterio = getActivity().findViewById(R.id.txt_buscadoN);
+        buscar =getActivity().findViewById(R.id.btnBuscar);
+        buscar.setOnClickListener(new View.OnClickListener() {//Busca por titulo de las notas
+            @Override
+            public void onClick(View v) {
+                DAONota dao = new DAONota(getActivity());
+                String[] nota = {criterio.getText().toString(),criterio.getText().toString()};
+                lv = getView().findViewById(R.id.lv_mostrarnota);
+                notas = dao.buscarporTitulo(nota);
+                adapter= new ArrayAdapter<Nota>(getActivity(),android.R.layout.simple_list_item_1,notas);
 
+                lv.setAdapter(adapter);
+
+            }
+        });
 
     }
 
@@ -99,5 +117,11 @@ public class MostrarNFragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {//Se mantenga la info aun con cambios de panatalla
+        super.onConfigurationChanged(newConfig);
+        llenar();
     }
 }

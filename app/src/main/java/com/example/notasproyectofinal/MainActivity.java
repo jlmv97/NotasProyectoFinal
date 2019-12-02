@@ -1,16 +1,19 @@
 package com.example.notasproyectofinal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.notasproyectofinal.DAOS.DAONota;
 import com.example.notasproyectofinal.DAOS.DAORecursos;
+import com.example.notasproyectofinal.DAOS.DAOTareas;
 import com.example.notasproyectofinal.MultimediaFragment.MostrarTFragment;
 import com.example.notasproyectofinal.NotasFragment.MostrarNFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,12 +21,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     public int contenedor=0;
+    EditText criterio1;
+    EditText criterio2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tabLayout = findViewById(R.id.menu_tab);
-        DAONota dao = new DAONota(this);
+        criterio1 = findViewById(R.id.txt_buscadoN);
+        criterio2 = findViewById(R.id.txt_busquedaT);
 
         MostrarNFragment mn = new MostrarNFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -46,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 IrAgregarNotas();
             }
         });
-        DAORecursos daor = new DAORecursos(this);
-        String n = daor.buscar("3");
-        String r = dao.buscar("1");
-        Toast.makeText(this,n,Toast.LENGTH_LONG).show();
 
         //Tabs
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -115,17 +118,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void MostrarTareas(View view) {
-        MostrarNFragment mn = new MostrarNFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contenedor,mn)
-                .commit();
-    }
-
-    public void MostrarNotas(View view) {
-        MostrarTFragment mt = new MostrarTFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contenedor,mt)
-                .commit();
-    }
 }

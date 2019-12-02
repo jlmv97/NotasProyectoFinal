@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">NotesFinalProyect</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_titulo">Title</string>
+    <string name="hint_texto">Text</string>
+    <string name="actualizar">Update</string>
+    <string name="eliminar">Delete</string>
+    <string name="adjuntar_video">Attach Video</string>
+    <string name="adjuntar_imagenes">Attach Picture</string>
+    <string name="tomar_foto">Take Photo</string>
+    <string name="grabar_video">Record Video</string>
+    <string name="notas">Notes</string>
+    <string name="tareas">Tasks</string>
+    <string name="guardar">Save</string>
+    <string name="descripcion">Description</string>
+    <string name="dialog_description">Add Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="aceptar">OK</string>
+    <string name="buscar">Search</string>
+    <string name="buscarT">Search Task</string>
+    <string name="buscarN">Search Note</string>
+    <string name="grabando">Recording...</string>
+    <string name="finalizado">Finished</string>
+    <string name="sorry">I understand</string>
+    <string name="intrdN">Insert the title of the note you are looking for</string>
+    <string name="sure">Sorry man I cant work with this</string>
+    <string name="llenar">Fill all the required fields</string>
+</resources>

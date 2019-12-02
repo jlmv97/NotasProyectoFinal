@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="19"
         android:targetSdkVersion="29" />
 
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -29,6 +29,11 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <receiver
+            android:name="com.example.notasproyectofinal.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity android:name="com.example.notasproyectofinal.actualizar_tareas" />
         <activity android:name="com.example.notasproyectofinal.actualizar_notas" />
         <activity

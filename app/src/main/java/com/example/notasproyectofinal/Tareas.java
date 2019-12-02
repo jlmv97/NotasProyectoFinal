@@ -132,10 +132,10 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
     }
     private void PermisosRecomendados() {
         AlertDialog.Builder dialogo =  new AlertDialog.Builder(this);
-        dialogo.setTitle("Permisos no otorgados");
-        dialogo.setMessage("Ahora no joven! debe dar permiso para que la app pueda funcionar");
+        dialogo.setTitle(R.string.sure);
+        dialogo.setMessage(R.string.sorry);
 
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+        dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M) //esto se agrego porque marcaba error el requestPermissions
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -257,7 +257,7 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
 
             }
             grabar.setColorFilter(Color.argb(255, 255, 0, 0)); // Cuando este grabando lo pongo color rojo
-            Toast.makeText(getApplicationContext(),"Grabando",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.grabando,Toast.LENGTH_SHORT).show();
 
         }else if(grabacion!=null){
             grabacion.stop();
@@ -269,7 +269,7 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
             pls.add(model);
             recycler.setAdapter(adaptador);
 
-            Toast.makeText(getApplicationContext(),"finalizada",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),R.string.finalizado,Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -307,17 +307,20 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
     //METODOS PARA INSERTAR LAS TAREAS Y LAS RUTAS DE LOS ARCHIVOS A LA BASE DE DATOS ///////////////////////////////////////////////
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void AgregarTarea(View view) {///Agrega la nota a la base de datos
-        tr = new  Tarea(0,titulo.getText().toString(),mensaje.getText().toString(),fecha,hr);
-        tarea.insert(tr);
-        if(pls.isEmpty()){
+        if (titulo.getText().toString().isEmpty()||mensaje.getText().toString().isEmpty()){
+            Toast.makeText(this,R.string.llenar,Toast.LENGTH_SHORT);
+        }else {
+            tr = new Tarea(0, titulo.getText().toString(), mensaje.getText().toString(), fecha, hr);
+            tarea.insert(tr);
+            if (pls.isEmpty()) {
 
-        }else{
-            insertaruri();
+            } else {
+                insertaruri();
+                insertRecordatorios();
+            }
+            crearNotificacion(year, month, day, hour, min);
+            finish();
         }
-        DAORecordatorio n = new DAORecordatorio(this);
-        crearNotificacion(year,month,day,hour,min);
-        insertRecordatorios(view);
-        finish();
 
     }
 
@@ -398,7 +401,43 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
         datePickerDialog.show();
     }
 
-    public void agregar_recorda(View view) {
+    //AGREGA LOS RECORDATORIOS
+    public void insertRecordatorios(){
+        String[] Tarea1 = {""};
+        DAOTareas daoTareas = new DAOTareas(this);
+        ArrayList<Integer>arrayIds = new ArrayList<>();
+        arrayIds = daoTareas.buscarUltimoId(Tarea1);
+        for(int i = 0;i < noSave.size(); i++){
+            crearNRecordatorio(noSave.get(i).getYear(),
+                    noSave.get(i).month,noSave.get(i).getDay(),
+                    noSave.get(i).hour,noSave.get(i).getMin());
+            Recordatorio recordatorio = new Recordatorio(0,noSave.get(i).fecha,
+                    noSave.get(i).getHora(),arrayIds.get(arrayIds.size()-1));
+            DAORecordatorio daoRecordatorio = new DAORecordatorio(this);
+            daoRecordatorio.insert(recordatorio);
+        }
+    }
+    //CREA LOS RECORDATORIOS
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)//Esta avisa de cuando se llega ek limite de la tarea
+    public void crearNotificacion(int year, int month, int day, int hour, int min){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this,AlarmReceiver.class);
+        intent.putExtra("tarea","Realizar la tarea "+tr.getTitulo());
+        PendingIntent broadcast = PendingIntent.getBroadcast(this,100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        c.set(year,month,day,hour,min,0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),broadcast);
+    }
+
+    public void crearNRecordatorio(int year, int month, int day, int hour, int min){
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent notiRintent = new Intent(this, AlarmReceiver.class);
+        notiRintent.putExtra("tarea","Recordatorio de la tarea "+tr.getTitulo());
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 200,notiRintent,PendingIntent.FLAG_UPDATE_CURRENT);
+        calendarRecordatorios.set(year,month,day,hour,min,0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendarRecordatorios.getTimeInMillis(),broadcast);
+    }
+
+    public void abrirCaleRecordatorio(){
         yearRecordatorio = calendarRecordatorios.get(Calendar.YEAR);
         monthRecordatorio = calendarRecordatorios.get(Calendar.MONTH);
         dayRecordaotio = calendarRecordatorios.get(Calendar.DAY_OF_MONTH);
@@ -408,7 +447,7 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                if((month+1)<10){
+                if ((month+1)<10){
                     mRecordatorio = "0"+""+(month+1);
                 }else{
                     mRecordatorio = ""+(month+1);
@@ -418,21 +457,18 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
                 }else{
                     dRecordatorios = ""+dayOfMonth;
                 }
-                //efecha.setText(dayOfMonth+"/"+(month + 1)+"/"+year);
-                //btnFecha.setText(year+"/"+m+"/"+d);
-                fechaRecordatorio= ""+year+"/"+mRecordatorio+"/"+dRecordatorios;
-
+                fechaRecordatorio = ""+year+"/"+mRecordatorio+"/"+dRecordatorios;
                 abrirRelojR();
             }
-        } ,yearRecordatorio,monthRecordatorio,dayRecordaotio);
+        },yearRecordatorio,monthRecordatorio,dayRecordaotio);
         datePickerDialog.show();
     }
-    private void abrirRelojR() {
+
+    public void abrirRelojR(){
         hourRecordatorio = calendarRecordatorios.get(Calendar.HOUR_OF_DAY);
         minRecordatorio = calendarRecordatorios.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if((hourOfDay+1)<10){
@@ -440,86 +476,31 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
                 }else{
                     horaRecordatorio = ""+(hourOfDay);
                 }
-                if(minute<10){
+                if (minute<10){
                     minutosRecordatorio = "0"+""+minute;
                 }else{
-                    minutosRecordatorio= ""+minute;
+                    minutosRecordatorio = ""+minute;
                 }
-                hrRecordatorios = horaRecordatorio+":"+minutosRecordatorio;
+                hrRecordatorios = horaRecordatorio+";"+minutosRecordatorio;
                 minRecordatorio = minute;
-                hourRecordatorio= hourOfDay;
-
-                guardarRecordatorios(yearRecordatorio,monthRecordatorio,dayRecordaotio,hourRecordatorio,minRecordatorio, fechaRecordatorio, hrRecordatorios);
+                hourRecordatorio = hourOfDay;
+                guardarRecordatorio(yearRecordatorio,monthRecordatorio,dayRecordaotio,hourRecordatorio,minRecordatorio,fechaRecordatorio,hrRecordatorios);
             }
         },hourRecordatorio,minRecordatorio,false);
         timePickerDialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void crearNotiRecordatorio(int year, int month, int day, int hour, int min){
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent(this, Alarm.class);
-        notificationIntent.putExtra("tarea", "Recordatorio de la tarea "+tr.getTitulo());
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 200, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public void guardarRecordatorio(int year, int month, int day, int hour, int min, String fecha, String hora){
+        provicional provicional = new provicional(year,month,day,hour,min,fecha,hora);
+        noSave.add(provicional);
 
-        calendarRecordatorios.set(year,month,day,hour,min,0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarRecordatorios.getTimeInMillis(), broadcast);
-
-        Log.i("Recordatorios", "Hora "+hour+":"+min);
     }
 
-    public void guardarRecordatorios(int year, int month, int day, int hour, int min, String fecha, String hora){
-        provicional r = new provicional(year, month, day, hour, min, fecha, hora);
-        noSave.add(r);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void insertRecordatorios(View view){
-        String[] Tareas1 = {""}; //para que me devuelva todas las tareas y yo tomar la ultima
-        DAOTareas daoTareas = new DAOTareas(this);
-
-        ArrayList<Integer> arrayIds = new ArrayList<>();
-        arrayIds = daoTareas.buscarUltimoId(Tareas1); //El array que me gusrda todos los ids de las Tareas
-
-        if(noSave !=null) {
-            for (int i = 0; i < noSave.size(); i++) {
-
-                crearNotiRecordatorio(noSave.get(i).getYear(), noSave.get(i).getMonth(), noSave.get(i).getDay(),noSave.get(i).getHour(), noSave.get(i).getMin());
-
-                Recordatorio recordatorio = new Recordatorio(0, noSave.get(i).getFecha(), noSave.get(i).getHora(), arrayIds.get(arrayIds.size()-1));
-                DAORecordatorio daoRecordatorios = new DAORecordatorio(this);
-
-                switch (view.getId()) {
-                    case R.id.btn_inserTarea:
-                        daoRecordatorios.insert(recordatorio);
-                        Log.i("Recordatorios", ""+recordatorio.getId());
-                }
-            }
-
-        }else{
-            //finish();
-        }
-        finish();
+    public void agregar_recorda(View view) {
+        abrirCaleRecordatorio();
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void crearNotificacion(int year, int month, int day, int hour, int min){
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        Intent notificationIntent = new Intent(this, Alarm.class);
-
-        notificationIntent.putExtra("tarea", "Realizar la tarea "+tr.getTitulo());
-
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Calendar cal = Calendar.getInstance();
-
-        c.set(year,month,day,hour,min,0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), broadcast);
-
-        //Toast.makeText(this, "Se creo la notificacion ", Toast.LENGTH_SHORT).show();
-    }
 
     //DIALOGO PARA AGREGAR DESCRIPCION
     public void openDialog(){
@@ -532,7 +513,6 @@ public class Tareas extends AppCompatActivity implements Dialogo.ExampleDilaogLi
         //txtDescripcion.setText(descripcion); //solo para probar si obtiene
         this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
     }
-
 
 
 

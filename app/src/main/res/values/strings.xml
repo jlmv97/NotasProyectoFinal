@@ -16,8 +16,13 @@
     <string name="dialog_description">Ingrese una descripcion</string>
     <string name="cancel">Cancelar</string>
     <string name="aceptar">OK</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="buscar">Buscar</string>
+    <string name="buscarT">Tarea a buscar</string>
+    <string name="buscarN">Nota a buscar</string>
+    <string name="grabando">Grabando...</string>
+    <string name="finalizado">Finalizado</string>
+    <string name="sorry">Ahora no joven! debe dar permiso para que la app pueda funcionar</string>
+    <string name="intrdN">Introdusca la nota que quiere buscar</string>
+    <string name="sure">Permisos no otorgados</string>
+    <string name="llenar">Llene todo los campos</string>
 </resources>

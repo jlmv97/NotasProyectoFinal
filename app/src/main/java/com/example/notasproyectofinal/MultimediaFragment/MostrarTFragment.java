@@ -3,6 +3,7 @@ package com.example.notasproyectofinal.MultimediaFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -41,6 +44,8 @@ public class MostrarTFragment extends Fragment {
     private DAOTareas dao;
     private ArrayList<Tarea> tareas;
     private ArrayAdapter<Tarea> adapter;
+    EditText criterio;
+    Button buscar;
 
 
     @Override
@@ -56,6 +61,21 @@ public class MostrarTFragment extends Fragment {
         // TODO: Use the ViewModel
         llenar();
         registerForContextMenu(lv);
+        criterio = getActivity().findViewById(R.id.txt_busquedaT);
+        buscar =getActivity().findViewById(R.id.btnBuscarT);
+        buscar.setOnClickListener(new View.OnClickListener() {//Busca por titulo de las tareas
+            @Override
+            public void onClick(View v) {
+                DAOTareas dao = new DAOTareas(getActivity());
+                String[] tarea = {criterio.getText().toString(),criterio.getText().toString()};
+                lv = getView().findViewById(R.id.lv_mostrarnota);
+                tareas = dao.buscarporTitulo(tarea);
+                adapter= new ArrayAdapter<Tarea>(getActivity(),android.R.layout.simple_list_item_1,tareas);
+
+                lv.setAdapter(adapter);
+
+            }
+        });
     }
 
     public void llenar(){
@@ -101,5 +121,11 @@ public class MostrarTFragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {//Se mantenga la info aun con cambios de panatalla
+        super.onConfigurationChanged(newConfig);
+        llenar();
     }
 }

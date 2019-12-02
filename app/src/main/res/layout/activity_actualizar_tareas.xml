@@ -97,19 +97,9 @@
         android:layout_marginLeft="63dp"
         android:layout_marginBottom="97dp"
         android:background="#00FFFFFF"
+        android:onClick="abrirCalendario"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/calendario" />
-
-    <ImageButton
-        android:id="@+id/btn_recordatorio"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="97dp"
-        android:background="#00FFFFFF"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/alarma" />
 
     <TextView
         android:id="@+id/txt_fecha"

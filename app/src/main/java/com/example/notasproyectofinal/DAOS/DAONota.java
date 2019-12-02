@@ -104,7 +104,7 @@ public class DAONota {
         ArrayList<Nota> notas = new ArrayList<>();
 
         String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_NOTA[0], BaseDeDatos.COLUMNS_NAME_NOTA[1], BaseDeDatos.COLUMNS_NAME_NOTA[2],BaseDeDatos.COLUMNS_NAME_NOTA[3]};
-        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, BaseDeDatos.COLUMNS_NAME_NOTA, null,null, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, BaseDeDatos.COLUMNS_NAME_NOTA, null,null, null, null, "_titulo");
 
         if(titulo[0].equals("")){
 
@@ -133,6 +133,39 @@ public class DAONota {
         return notas;
     }
 
+    public ArrayList<Nota> buscarporTitulo(String[] titulo){
+        ArrayList<Nota> notas = new ArrayList<>();
+
+        String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_NOTA[0], BaseDeDatos.COLUMNS_NAME_NOTA[1], BaseDeDatos.COLUMNS_NAME_NOTA[2],BaseDeDatos.COLUMNS_NAME_NOTA[3]};
+        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, columnasAConsultar, "_titulo = ? OR _texto = ?", titulo, null, null, "_titulo");
+
+        if(titulo[0].equals("")){
+
+            cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS, columnasAConsultar, null, null, null, null, null);
+        }
+
+        if (cursor == null){
+            return notas;
+        }
+
+        if (!cursor.moveToFirst()) return notas;
+
+        do {
+
+            int idObtenidoDeBD = cursor.getInt(0);
+            String tituloObtenidoDeBD = cursor.getString(1);
+            String textoObtenidoDeBD = cursor.getString(2);
+            String fechaObtneidaDeBD = cursor.getString(3);
+
+            Nota notaObtenidoDeBD = new Nota(idObtenidoDeBD, tituloObtenidoDeBD, textoObtenidoDeBD,fechaObtneidaDeBD);
+            notas.add(notaObtenidoDeBD);
+
+        } while (cursor.moveToNext());
+
+        cursor.close();
+        return notas;
+    }
+
 
     public Nota llenar (){
         Cursor query =sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS,BaseDeDatos.COLUMNS_NAME_NOTA, null,null, null, null,null);
@@ -145,7 +178,7 @@ public class DAONota {
 
     public String buscar(String criterio){
         String valores="";
-        Cursor query =sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS,BaseDeDatos.COLUMNS_NAME_NOTA, "_id=?",new String[]{criterio+""}, null, null,null);
+        Cursor query =sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS,BaseDeDatos.COLUMNS_NAME_NOTA, "_titulo=?",new String[]{criterio+""}, null, null,null);
         while(query.moveToNext()){
             valores = "ID: "+query.getInt(0)+"\n Titulo: "+query.getString(1)+
                     "\n Texto: "+query.getString(2)+
@@ -182,6 +215,15 @@ public class DAONota {
             cursor.close();
             return notas;
         }
+
+    public Nota preparacion(String titulo){
+        Cursor query =sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_NOTAS,BaseDeDatos.COLUMNS_NAME_NOTA, "_titulo=?",new String[]{titulo+""}, null, null,null);
+        Nota nice=null;
+        while (query.moveToNext()){
+            nice = new Nota(query.getInt(0),query.getString(1),query.getString(2),query.getString(3));
+        }
+        return nice;
+    }
     }
 
 
