@@ -94,8 +94,8 @@ public class DAOTareas {
     public ArrayList<Tarea> buscarporTitulo(String[] titulo){
         ArrayList<Tarea> tareas = new ArrayList<>();
 
-        String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_TAREA[0], BaseDeDatos.COLUMNS_NAME_TAREA[1], BaseDeDatos.COLUMNS_NAME_TAREA[2],BaseDeDatos.COLUMNS_NAME_TAREA[3]};
-        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA, columnasAConsultar, "_titulo = ? OR _descripcion = ?", titulo, null, null, "_titulo");
+        String[] columnasAConsultar = {BaseDeDatos.COLUMNS_NAME_TAREA[0], BaseDeDatos.COLUMNS_NAME_TAREA[1], BaseDeDatos.COLUMNS_NAME_TAREA[2],BaseDeDatos.COLUMNS_NAME_TAREA[3],BaseDeDatos.COLUMNS_NAME_TAREA[4]};
+        Cursor cursor = sqLiteDatabase.query(BaseDeDatos.TABLE_NAME_TAREA, columnasAConsultar, "_titulo = ? OR _descripcion = ?", titulo, null, null, null);
 
         if(titulo[0].equals("")){
 

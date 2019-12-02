@@ -1,5 +1,6 @@
 package com.example.notasproyectofinal;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -65,8 +66,8 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
         setContentView(R.layout.activity_notas);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         adaptador = new MultiAdapter(pls,this);
-        titulo = findViewById(R.id.txt_titulo_tarea);
-        mensaje = findViewById(R.id.txt_cuerpo_tarea);
+        titulo = findViewById(R.id.txt_titulo);
+        mensaje = findViewById(R.id.txt_cuerpo);
         menu = findViewById(R.id.btn_adjuntar);
         grabar = findViewById(R.id.btn_grabar);
         nota = new DAONota(this);
@@ -334,4 +335,16 @@ public class Notas extends AppCompatActivity implements Dialogo.ExampleDilaogLis
         //txtDescripcion.setText(descripcion); //solo para probar si obtiene
         this.descripcion = descripcion; // la variable global descripcion obtiene el valor de lo que hay en el input del Dialog
     }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
+        recycler.setLayoutManager(linearLayoutManager);
+        recycler.setItemAnimator(new DefaultItemAnimator());
+        recycler.setAdapter(adaptador);
+    }
+
+
+
 }

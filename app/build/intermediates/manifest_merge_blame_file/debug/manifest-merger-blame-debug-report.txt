@@ -35,7 +35,7 @@
 20-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:14:22-68
 21
 22    <application
-22-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:16:5-58:19
+22-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:16:5-63:19
 23        android:allowBackup="true"
 23-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:17:9-35
 24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -61,73 +61,85 @@
 35            android:exported="true" />
 35-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:26:13-36
 36
-37        <activity android:name="com.example.notasproyectofinal.actualizar_tareas" />
-37-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:28:9-55
-37-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:28:19-52
-38        <activity android:name="com.example.notasproyectofinal.actualizar_notas" />
-38-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:29:9-54
-38-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:29:19-51
-39        <activity
-39-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:30:9-32:58
-40            android:name="com.example.notasproyectofinal.Tareas"
-40-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:31:13-35
-41            android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
-41-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:32:13-55
-42        <activity
-42-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:33:9-35:58
-43            android:name="com.example.notasproyectofinal.Notas"
-43-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:34:13-34
-44            android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
-44-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:35:13-55
-45        <activity
-45-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:36:9-45:20
-46            android:name="com.example.notasproyectofinal.MainActivity"
-46-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:37:13-41
-47            android:label="@string/app_name"
-47-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:38:13-45
-48            android:theme="@style/AppTheme.NoActionBar" >
-48-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:39:13-56
-49            <intent-filter>
-49-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:40:13-44:29
-50                <action android:name="android.intent.action.MAIN" />
-50-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:41:17-69
-50-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:41:25-66
-51
-52                <category android:name="android.intent.category.LAUNCHER" />
-52-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:43:17-77
-52-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:43:27-74
-53            </intent-filter>
-54        </activity>
-55
-56        <provider
-56-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:47:9-57:20
-57            android:name="androidx.core.content.FileProvider"
-57-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:48:13-62
-58            android:authorities="com.example.notasproyectofinal.fileprovider"
-58-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:49:13-78
-59            android:exported="false"
-59-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:50:13-37
-60            android:grantUriPermissions="true" >
-60-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:51:13-47
-61
-62            <!-- ressource file to create -->
-63            <meta-data
-63-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:54:13-56:54
-64                android:name="android.support.FILE_PROVIDER_PATHS"
-64-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:55:17-67
-65                android:resource="@xml/file_paths" />
-65-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:56:17-51
-66        </provider>
-67        <provider
-67-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:23:9-27:43
-68            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-68-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:24:13-79
-69            android:authorities="com.example.notasproyectofinal.lifecycle-process"
-69-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:25:13-69
-70            android:exported="false"
-70-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:26:13-37
-71            android:multiprocess="true" />
-71-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:27:13-40
-72    </application>
-73
-74</manifest>
+37        <activity
+37-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:28:9-29:76
+38            android:name="com.example.notasproyectofinal.actualizar_tareas"
+38-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:28:19-52
+39            android:configChanges="keyboardHidden|orientation|screenSize" />
+39-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:29:13-74
+40        <activity
+40-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:30:9-31:76
+41            android:name="com.example.notasproyectofinal.actualizar_notas"
+41-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:30:19-51
+42            android:configChanges="keyboardHidden|orientation|screenSize" />
+42-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:31:13-74
+43        <activity
+43-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:32:9-35:76
+44            android:name="com.example.notasproyectofinal.Tareas"
+44-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:33:13-35
+45            android:configChanges="keyboardHidden|orientation|screenSize"
+45-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:35:13-74
+46            android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
+46-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:34:13-55
+47        <activity
+47-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:36:9-39:76
+48            android:name="com.example.notasproyectofinal.Notas"
+48-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:37:13-34
+49            android:configChanges="keyboardHidden|orientation|screenSize"
+49-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:39:13-74
+50            android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
+50-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:38:13-55
+51        <activity
+51-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:40:9-50:20
+52            android:name="com.example.notasproyectofinal.MainActivity"
+52-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:41:13-41
+53            android:configChanges="keyboardHidden|orientation|screenSize"
+53-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:44:13-74
+54            android:label="@string/app_name"
+54-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:42:13-45
+55            android:theme="@style/AppTheme.NoActionBar" >
+55-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:43:13-56
+56            <intent-filter>
+56-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:45:13-49:29
+57                <action android:name="android.intent.action.MAIN" />
+57-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:46:17-69
+57-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:46:25-66
+58
+59                <category android:name="android.intent.category.LAUNCHER" />
+59-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:48:17-77
+59-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:48:27-74
+60            </intent-filter>
+61        </activity>
+62
+63        <provider
+63-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:52:9-62:20
+64            android:name="androidx.core.content.FileProvider"
+64-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:53:13-62
+65            android:authorities="com.example.notasproyectofinal.fileprovider"
+65-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:54:13-78
+66            android:exported="false"
+66-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:55:13-37
+67            android:grantUriPermissions="true" >
+67-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:56:13-47
+68
+69            <!-- ressource file to create -->
+70            <meta-data
+70-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:59:13-61:54
+71                android:name="android.support.FILE_PROVIDER_PATHS"
+71-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:60:17-67
+72                android:resource="@xml/file_paths" />
+72-->D:\Documentos\8vo semestre\Moviles\NotasProyectoFinal\app\src\main\AndroidManifest.xml:61:17-51
+73        </provider>
+74        <provider
+74-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:23:9-27:43
+75            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+75-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:24:13-79
+76            android:authorities="com.example.notasproyectofinal.lifecycle-process"
+76-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:25:13-69
+77            android:exported="false"
+77-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:26:13-37
+78            android:multiprocess="true" />
+78-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Jorge Luis\.gradle\caches\transforms-2\files-2.1\c75b512c68f7bb7a7c5a931aae563be5\lifecycle-process-2.1.0\AndroidManifest.xml:27:13-40
+79    </application>
+80
+81</manifest>

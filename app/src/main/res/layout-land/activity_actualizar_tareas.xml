@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/txt_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/hint_titulo"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_cuerpo"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="89dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/hint_texto"
+        android:inputType="textMultiLine" />
+
+    <ImageButton
+        android:id="@+id/btn_limite"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="211dp"
+        android:layout_marginLeft="211dp"
+        android:layout_marginBottom="97dp"
+        android:background="#00FFFFFF"
+        android:onClick="abrirCalendario"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/calendario" />
+
+    <ImageButton
+        android:id="@+id/btn_grabar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginBottom="95dp"
+        android:background="#00FFFFFF"
+        android:onClick="grabarAudio"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/forma_de_microfono_negro" />
+
+    <ImageButton
+        android:id="@+id/btn_adjuntar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="127dp"
+        android:layout_marginLeft="127dp"
+        android:layout_marginBottom="93dp"
+        android:background="#00FFFFFF"
+        android:onClick="Adjuntar"
+        android:scaleType="fitXY"
+        android:src="@drawable/carpeta" />
+
+    <Button
+        android:id="@+id/btn_actualizarT"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="523dp"
+        android:layout_marginRight="523dp"
+        android:layout_marginBottom="21dp"
+        android:onClick="ActualizarTarea"
+        android:text="@string/actualizar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recy_multi"
+        android:layout_width="312dp"
+        android:layout_height="359dp"
+
+        android:layout_above="@+id/btn_recordatorio"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="45dp"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/txt_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="479dp"
+        android:layout_marginRight="479dp"
+        android:layout_marginBottom="43dp"
+        android:text='""' />
+</RelativeLayout>

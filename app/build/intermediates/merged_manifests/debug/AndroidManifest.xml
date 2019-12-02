@@ -34,16 +34,23 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="com.example.notasproyectofinal.actualizar_tareas" />
-        <activity android:name="com.example.notasproyectofinal.actualizar_notas" />
+        <activity
+            android:name="com.example.notasproyectofinal.actualizar_tareas"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.example.notasproyectofinal.actualizar_notas"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="com.example.notasproyectofinal.Tareas"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
         <activity
             android:name="com.example.notasproyectofinal.Notas"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="com.example.notasproyectofinal.MainActivity" />
         <activity
             android:name="com.example.notasproyectofinal.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>

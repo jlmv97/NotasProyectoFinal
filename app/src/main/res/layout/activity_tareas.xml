@@ -7,7 +7,7 @@
     tools:context=".Tareas" >
 
     <EditText
-        android:id="@+id/txt_titulo_tarea"
+        android:id="@+id/txt_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,7 +18,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/txt_cuerpo_tarea"
+        android:id="@+id/txt_cuerpo"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -34,7 +34,7 @@
         android:layout_height="359dp"
 
         android:layout_above="@+id/btn_recordatorio"
-        android:layout_below="@+id/txt_cuerpo_tarea"
+        android:layout_below="@+id/txt_cuerpo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
         android:layout_marginBottom="45dp"
@@ -58,7 +58,7 @@
         android:src="@drawable/carpeta" />
 
     <Button
-        android:id="@+id/btn_inserTarea"
+        android:id="@+id/btn_actualizarT"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

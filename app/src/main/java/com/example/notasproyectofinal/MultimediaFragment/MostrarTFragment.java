@@ -68,7 +68,7 @@ public class MostrarTFragment extends Fragment {
             public void onClick(View v) {
                 DAOTareas dao = new DAOTareas(getActivity());
                 String[] tarea = {criterio.getText().toString(),criterio.getText().toString()};
-                lv = getView().findViewById(R.id.lv_mostrarnota);
+                lv = getView().findViewById(R.id.lv_mostrartarea);
                 tareas = dao.buscarporTitulo(tarea);
                 adapter= new ArrayAdapter<Tarea>(getActivity(),android.R.layout.simple_list_item_1,tareas);
 
